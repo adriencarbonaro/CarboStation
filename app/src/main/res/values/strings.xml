@@ -4,5 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="text_dashboard_header">Adrien</string>
+    <string name="dashboard_title">Temperature</string>
+    <string name="dashboard_temp_int_title">Int.</string>
+    <string name="dashboard_temp_out_title">Out.</string>
 </resources>
