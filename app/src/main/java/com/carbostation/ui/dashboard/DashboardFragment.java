@@ -14,62 +14,44 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.carbostation.R;
+import com.carbostation.TempManager;
 
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
+    private TempManager temp_manager;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /* Create TempManager instance */
+        Log.d("[C]", "create");
+        if (temp_manager == null) {
+            temp_manager = new TempManager(12, 13);
+        }
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         final TextView dashboard_title = root.findViewById(R.id.dashboard_title);
         final TextView dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_int_value);
         final TextView dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value);
-        dashboardViewModel.getTitle().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d("A", s);
-                dashboard_title.setText(s);
-            }
-        });
-        dashboardViewModel.getTempInt().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d("A", s);
-                dashboard_temp_int_value.setText(s);
-            }
-        });
-        dashboardViewModel.getTempOut().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d("A", s);
-                dashboard_temp_out_value.setText(s);
-            }
-        });
+        dashboard_title.setText("Temperatures:");
+        dashboard_temp_int_value.setText(String.valueOf(temp_manager.getTempInt()));
+        dashboard_temp_out_value.setText(String.valueOf(temp_manager.getTempOut()));
         return root;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        int cur_temp_int = Integer.parseInt(dashboardViewModel.getTextTempInt());
-        int cur_temp_out = Integer.parseInt(dashboardViewModel.getTextTempOut());
-        dashboardViewModel.setTextTempInt(String.valueOf(cur_temp_int+1));
-        dashboardViewModel.setTextTempOut(String.valueOf(cur_temp_out+1));
-        Log.d("M", String.valueOf(cur_temp_int));
-        Log.d("M", String.valueOf(cur_temp_out));
+        Log.d("[P]", "pause");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("M", "resume");
-        //View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        //TextView dashboard_title = root.findViewById(R.id.dashboard_title);
-        //TextView dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_int_value);
-        //TextView dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value);
-        //dashboardViewModel.setText
+        Log.d("[R]", "resume");
     }
 }
