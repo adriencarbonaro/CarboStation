@@ -7,19 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.carbostation.R;
 import com.carbostation.TempManager;
 
+
 public class DashboardFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
-    private TempManager temp_manager;
+    private String TAG="DashboardFragment";
+    static private TempManager temp_manager;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,13 +26,16 @@ public class DashboardFragment extends Fragment {
         /* Create TempManager instance */
         Log.d("[C]", "create");
         if (temp_manager == null) {
+            Log.v(TAG, "create new temp");
             temp_manager = new TempManager(12, 13);
         }
     }
 
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        Log.v(TAG, "OnCreateView");
+        View root = inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
         final TextView dashboard_title = root.findViewById(R.id.dashboard_title);
         final TextView dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_int_value);
         final TextView dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value);
@@ -44,14 +46,35 @@ public class DashboardFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.v(TAG, "onActivityCreated");
+        if (savedInstanceState != null) {
+            //Restore the fragment's state here
+            Log.v(TAG, "Non null bundle");
+            savedInstanceState.getInt("myint");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.v(TAG, "onSavedInstanceState");
+        outState.putInt("myint", 13);
+        //Save the fragment's state here
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        Log.d("[P]", "pause");
+        Log.v(TAG, "pause");
+        temp_manager.setTempInt(temp_manager.getTempInt() + 1);
+        temp_manager.setTempOut(temp_manager.getTempOut() + 1);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("[R]", "resume");
+        Log.v(TAG, "resume");
     }
 }

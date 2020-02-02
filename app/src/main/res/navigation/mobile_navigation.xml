@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.carbostation.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/ui_fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.carbostation.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/ui_fragment_dashoard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.carbostation.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/ui_fragment_notifications" />
 </navigation>
