@@ -3,6 +3,7 @@ package com.carbostation;
 import android.util.Log;
 
 public class TempManager {
+    private String TAG="TempManager";
     /* Private Attributes */
     private int _temp_int;
     private int _temp_out;
@@ -11,7 +12,7 @@ public class TempManager {
     public TempManager(int temp_int, int temp_out) {
         _temp_int = temp_int;
         _temp_out = temp_out;
-        Log.d("[T]", String.valueOf(_temp_int) + " " + String.valueOf(_temp_out));
+        Log.d(TAG, String.valueOf(_temp_int) + " " + String.valueOf(_temp_out));
     }
 
     /* Getters */

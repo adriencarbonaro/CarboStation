@@ -41,6 +41,7 @@ abstract public class NetatmoHttpClient {
     protected final String URL_BASE = "https://api.netatmo.net";
     protected final String URL_REQUEST_TOKEN = URL_BASE + "/oauth2/token";
     protected final String URL_GET_DEVICES_LIST = URL_BASE + "/api/devicelist";
+    protected final String URL_GET_PUBLIC_DATA = URL_BASE + "/api/getpublicdata";
 
     public NetatmoHttpClient(Context context){
         queue = Volley.newRequestQueue(context);

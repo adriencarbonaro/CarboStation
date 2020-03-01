@@ -33,6 +33,11 @@ public class NetatmoUtils {
     public static final String KEY_REFRESH_TOKEN = "refresh_token";
     public static final String KEY_EXPIRES_AT    = "expires_at";
 
+    public static final String KEY_PARAM_TEMPERATURE = "temperature";
+
+    public static final String KEY_BODY      = "body";
+    public static final String KEY_BODY_ID   = "_id";
+
     public static HashMap<String, String> parseOAuthResponse(JSONObject response) {
         HashMap<String, String> parsedResponse = new HashMap<String, String>();
 

@@ -12,23 +12,26 @@ import androidx.fragment.app.Fragment;
 
 import com.carbostation.R;
 import com.carbostation.TempManager;
+import com.carbostation.netatmo_sample.SampleHttpClient;
+import com.carbostation.netatmo_api.NetatmoUtils;
 
 
 public class DashboardFragment extends Fragment {
 
     private String TAG="DashboardFragment";
-    static private TempManager temp_manager;
-
+    static private TempManager   temp_manager;
+    private SampleHttpClient     http_client;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /* Create TempManager instance */
-        Log.d("[C]", "create");
+        Log.d(TAG, "create");
         if (temp_manager == null) {
             Log.v(TAG, "create new temp");
             temp_manager = new TempManager(12, 13);
         }
+        http_client = SampleHttpClient.getInstance(getContext());
     }
 
 
@@ -49,19 +52,11 @@ public class DashboardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.v(TAG, "onActivityCreated");
-        if (savedInstanceState != null) {
-            //Restore the fragment's state here
-            Log.v(TAG, "Non null bundle");
-            savedInstanceState.getInt("myint");
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.v(TAG, "onSavedInstanceState");
-        outState.putInt("myint", 13);
-        //Save the fragment's state here
+        http_client.login(
+                "carbonaro.adrien@gmail.com",
+                "Dekide.X9"
+        );
+        http_client.getPublicData(3, 4, -2, -2, NetatmoUtils.KEY_PARAM_TEMPERATURE);
     }
 
     @Override
