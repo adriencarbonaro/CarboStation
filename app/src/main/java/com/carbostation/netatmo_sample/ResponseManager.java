@@ -1,14 +1,20 @@
 package com.carbostation.netatmo_sample;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.carbostation.netatmo_api.NetatmoHttpClient;
+import com.carbostation.netatmo_api.model.Station;
+import com.carbostation.ui.dashboard.DashboardFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class ResponseManager implements Response.Listener<String> {
     private static final String TAG = "ResponseManager";
@@ -22,12 +28,15 @@ public class ResponseManager implements Response.Listener<String> {
     }
 
     public void processResponse(JSONObject response, SampleHttpClient.listener_type type) {
-        Log.d(TAG, "Processing " + type.toString());
+        Log.d(TAG, "Response : " + response.toString());
         if (type == SampleHttpClient.listener_type.LISTENER_LOGIN) {
             SampleHttpClient.getInstance(context).processOAuthResponse(response);
         }
         else if (type == SampleHttpClient.listener_type.LISTENER_GET_PUBLIC_DATA) {
             SampleHttpClient.getInstance(context).processGetPublicDataResponse(response);
+        }
+        else if (type == SampleHttpClient.listener_type.LISTENER_GET_STATIONS_DATA) {
+            SampleHttpClient.getInstance(context).processGetStationsDataResponse(response);
         }
     }
 
@@ -40,10 +49,13 @@ public class ResponseManager implements Response.Listener<String> {
     public void onResponse(String response) {
         try {
             _response_json = new JSONObject(response);
-            Log.v(TAG, _response_json.toString(4));
             processResponse(_response_json, _type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void displayResponse() {
+        Log.d(TAG, _response_json.toString());
     }
 }

@@ -7,6 +7,6 @@
     <string name="title_last">Last</string>
 
     <string name="dashboard_title">Temperature</string>
-    <string name="dashboard_temp_int_title">Int.</string>
+    <string name="dashboard_temp_int_title">In.</string>
     <string name="dashboard_temp_out_title">Out.</string>
 </resources>

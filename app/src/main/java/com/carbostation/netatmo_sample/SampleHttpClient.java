@@ -4,17 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import java.util.List;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.carbostation.R;
+
 import com.carbostation.netatmo_api.NetatmoHttpClient;
 import com.carbostation.netatmo_api.NetatmoUtils;
+import com.carbostation.netatmo_api.model.Measures;
+import com.carbostation.netatmo_api.model.Params;
+import com.carbostation.netatmo_api.model.Station;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import static com.carbostation.netatmo_api.model.Params.TYPE_CO2;
+import static com.carbostation.netatmo_api.model.Params.TYPE_TEMPERATURE;
 
 /**
  * This is just an example of how you can extend NetatmoHttpClient.
@@ -32,11 +40,14 @@ public class SampleHttpClient extends NetatmoHttpClient {
     public ErrorResponseManager _error_listener_login;
     public ResponseManager _listener_get_public_data;
     public ErrorResponseManager _error_listener_get_public_data;
+    public ResponseManager _listener_get_stations_data;
+    public ErrorResponseManager _error_listener_get_stations_data;
     private JSONObject obj;
 
     public enum listener_type {
         LISTENER_LOGIN,
         LISTENER_GET_PUBLIC_DATA,
+        LISTENER_GET_STATIONS_DATA,
     }
 
     private static SampleHttpClient INSTANCE = null;
@@ -50,6 +61,8 @@ public class SampleHttpClient extends NetatmoHttpClient {
         _error_listener_login             = new ErrorResponseManager(listener_type.LISTENER_LOGIN);
         _listener_get_public_data         = new ResponseManager(listener_type.LISTENER_GET_PUBLIC_DATA);
         _error_listener_get_public_data   = new ErrorResponseManager(listener_type.LISTENER_GET_PUBLIC_DATA);
+        _listener_get_stations_data       = new ResponseManager(listener_type.LISTENER_GET_STATIONS_DATA);
+        _error_listener_get_stations_data = new ErrorResponseManager(listener_type.LISTENER_GET_STATIONS_DATA);
     };
 
     public static synchronized SampleHttpClient getInstance(Context context) {
@@ -73,22 +86,29 @@ public class SampleHttpClient extends NetatmoHttpClient {
      */
     public void processOAuthResponse(JSONObject response){
         HashMap<String,String> parsedResponse = NetatmoUtils.parseOAuthResponse(response);
-        storeTokens(parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
+        storeTokens(
+                parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
                 parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT)));
+                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT))
+        );
     }
     public void processGetPublicDataResponse(JSONObject response){
-        HashMap<String,String> parsedResponse = NetatmoUtils.parseMeasures(response);
-        storeTokens(parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
-                parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT)));
+        //HashMap<String,String> parsedResponse = NetatmoUtils.parseMeasures(response);
+        //storeTokens(parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
+        //        parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
+        //        Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT)));
+    }
+    public void processGetStationsDataResponse(JSONObject response){
+        List<Station> parsedDevicesList = NetatmoUtils.parseDevicesList(response);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString("STATION_NAME", parsedDevicesList.get(0).getName());
+        editor.apply();
     }
 
     //-- Netatmo API response listeners --------------------------------------
     public void getPublicData(
             int lat_ne, int lon_ne, int lat_sw, int lon_sw, String required_data) {
         HashMap<String,String> params = new HashMap<>();
-        Log.d(TAG, getAccessToken());
         params.put("access_token", getAccessToken());
         params.put("lat_ne", String.valueOf(lat_ne));
         params.put("lon_ne", String.valueOf(lon_ne));
@@ -102,6 +122,19 @@ public class SampleHttpClient extends NetatmoHttpClient {
             params,
             _listener_get_public_data,
             _error_listener_get_public_data
+        );
+    }
+
+    public void getStationsData(String device_id, Response.Listener<String> listener) {
+        HashMap<String,String> params = new HashMap<>();
+        params.put("access_token", getAccessToken());
+        params.put("device_id", device_id);
+
+        post(
+            URL_GET_STATIONS_DATA,
+            params,
+            listener,
+            _error_listener_get_stations_data
         );
     }
 
@@ -166,6 +199,7 @@ public class SampleHttpClient extends NetatmoHttpClient {
 
     @Override
     protected long getExpiresAt() {
+        Log.d("TAG", "EXPIRRR");
         return mSharedPreferences.getLong(NetatmoUtils.KEY_EXPIRES_AT,0);
     }
 }

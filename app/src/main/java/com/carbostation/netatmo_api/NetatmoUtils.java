@@ -76,7 +76,7 @@ public class NetatmoUtils {
                 newStation.addModule(newModule);
                 devices.add(newStation);
             }
-
+/*
             JSONArray JSONmodules = response.getJSONObject("body").getJSONArray("modules");
 
             for (int i = 0; i < JSONmodules.length(); i++) {
@@ -93,6 +93,7 @@ public class NetatmoUtils {
                     }
                 }
             }
+ */
         } catch (JSONException e) {
             e.printStackTrace();
         }

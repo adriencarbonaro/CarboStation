@@ -13,31 +13,35 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Bottom navigation item
+    private BottomNavigationView bottom_nav_view;
     private SampleHttpClient     http_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        bottom_nav_view = findViewById(R.id.bottom_nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home,
-                R.id.navigation_dashboard,
-                R.id.navigation_notifications,
-                R.id.navigation_other,
-                R.id.navigation_last)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        AppBarConfiguration app_bar_configuration = new AppBarConfiguration.Builder(
+            R.id.navigation_home,
+            R.id.navigation_dashboard,
+            R.id.navigation_notifications,
+            R.id.navigation_other,
+            R.id.navigation_last
+        ).build();
+        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
+        NavigationUI.setupActionBarWithNavController(this, bottom_nav_controller, app_bar_configuration);
+        NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
 
         /* Login to Netatmo API */
         http_client = SampleHttpClient.getInstance(this);
         http_client.login(
-                "carbonaro.adrien@gmail.com",
-                "Dekide.X9"
+            "carbonaro.adrien@gmail.com",
+            "Dekide.X9"
         );
     }
 

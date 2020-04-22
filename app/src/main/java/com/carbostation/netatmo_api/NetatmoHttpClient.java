@@ -42,6 +42,7 @@ abstract public class NetatmoHttpClient {
     protected final String URL_REQUEST_TOKEN = URL_BASE + "/oauth2/token";
     protected final String URL_GET_DEVICES_LIST = URL_BASE + "/api/devicelist";
     protected final String URL_GET_PUBLIC_DATA = URL_BASE + "/api/getpublicdata";
+    protected final String URL_GET_STATIONS_DATA = URL_BASE + "/api/getstationsdata";
 
     public NetatmoHttpClient(Context context){
         queue = Volley.newRequestQueue(context);
@@ -80,6 +81,7 @@ abstract public class NetatmoHttpClient {
     protected void get(final String url, final HashMap<String,String> params, final Response.Listener<String> successListener, final Response.ErrorListener errorListener){
 
         if(System.currentTimeMillis() >= getExpiresAt()){
+            Log.d("TAG", "IT EXPIRED !");
             refreshToken(getRefreshToken(), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
