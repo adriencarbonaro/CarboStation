@@ -15,12 +15,18 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Response;
 import com.carbostation.R;
 import com.carbostation.TempManager;
+import com.carbostation.netatmo_api.model.Measures;
+import com.carbostation.netatmo_api.model.Params;
 import com.carbostation.netatmo_sample.ResponseManager;
 import com.carbostation.netatmo_sample.SampleHttpClient;
 import com.carbostation.netatmo_api.NetatmoUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 
 
 public class DashboardFragment extends Fragment {
@@ -65,7 +71,7 @@ public class DashboardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.v(TAG, "onActivityCreated");
-        http_client.getStationsData("70:ee:50:13:67:ca", dashboard_station_response);
+        http_client.getStationsData(getString(R.string.device_id), dashboard_station_response);
     }
 
     @Override
@@ -92,33 +98,24 @@ public class DashboardFragment extends Fragment {
                 String temp_in    = null;
                 String temp_out   = null;
                 try {
-                    JSONObject json_obj = new JSONObject(response);
-                    title = json_obj.getJSONObject(
-                        "body").getJSONArray(
-                        "devices").getJSONObject(0).getString("station_name");
-                    temp_in = json_obj.getJSONObject(
-                            "body"
-                        ).getJSONArray(
-                            "devices"
-                        ).getJSONObject(0).getJSONObject(
-                            "dashboard_data"
-                        ).getString("Temperature");
-                    temp_out = json_obj.getJSONObject(
-                            "body"
-                        ).getJSONArray(
-                            "devices"
-                        ).getJSONObject(0).getJSONArray(
-                            "modules"
-                        ).getJSONObject(0).getJSONObject(
-                            "dashboard_data"
-                        ).getString("Temperature");
+                    JSONObject json_response = new JSONObject(response);
+                    String[] types = {
+                            Params.TYPE_TEMPERATURE,
+                    };
+                    title = json_response.getJSONObject("body")
+                            .getJSONArray("devices").getJSONObject(0)
+                            .getString("station_name");
+                    HashMap<String, Measures> measures = parseMeasures(json_response, types);
+
+                    temp_in  = String.valueOf(measures.get(getString(R.string.device_id)).getTemperature());
+                    temp_out = String.valueOf(measures.get(getString(R.string.module_id)).getTemperature());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 if (title != null) {
                     dashboard_title.setText(title);
-                    dashboard_temp_int_value.setText(temp_in);
-                    dashboard_temp_out_value.setText(temp_out);
+                    dashboard_temp_int_value.setText(temp_in  + " °C");
+                    dashboard_temp_out_value.setText(temp_out + " °C");
                 } else {
                     dashboard_title.setText("ERROR");
                     dashboard_temp_int_value.setText("ERROR");

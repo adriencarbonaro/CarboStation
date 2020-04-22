@@ -15,6 +15,8 @@
  */
 package com.carbostation.netatmo_api;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +78,7 @@ public class NetatmoUtils {
                 newStation.addModule(newModule);
                 devices.add(newStation);
             }
-/*
+
             JSONArray JSONmodules = response.getJSONObject("body").getJSONArray("modules");
 
             for (int i = 0; i < JSONmodules.length(); i++) {
@@ -93,7 +95,7 @@ public class NetatmoUtils {
                     }
                 }
             }
- */
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -122,105 +124,53 @@ public class NetatmoUtils {
             // We parse all the stations
             JSONArray stations = body.getJSONArray("devices");
             for (int j = 0; j < stations.length(); j++) {
-                Measures measures = new Measures();
+                Measures measures_device  = new Measures();
+                Measures measures_modules = new Measures();
                 JSONObject station = stations.getJSONObject(j);
-                String currentId = station.getString("_id");
-                JSONObject moduleData = station.getJSONObject("dashboard_data");
+                String current_device_id  = station.getString("_id");
+                String current_modules_id = station.getJSONArray("modules")
+                        .getJSONObject(0).getString("_id");
+                JSONObject deviceData = station.getJSONObject("dashboard_data");
+                JSONObject moduleData = station.getJSONArray("modules")
+                        .getJSONObject(0).getJSONObject("dashboard_data");
 
-                String beginTime = moduleData.getString("time_utc");
-                measures.setBeginTime((beginTime == null) ? 0 : Long.parseLong(beginTime) * 1000);
-
+                /* Get device data */
                 for (int i = 0; i < types.length; i++) {
                     switch (types[i]){
                         case Params.TYPE_TEMPERATURE:
-                            measures.setTemperature(getJSONString(moduleData, types[i]));
+                            measures_device.setTemperature(getJSONString(deviceData, types[i]));
+                            measures_modules.setTemperature(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_CO2:
-                            measures.setCO2(getJSONString(moduleData, types[i]));
+                            measures_device.setCO2(getJSONString(deviceData, types[i]));
+                            measures_modules.setCO2(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_HUMIDITY:
-                            measures.setHumidity(getJSONString(moduleData, types[i]));
+                            measures_device.setHumidity(getJSONString(moduleData, types[i]));
+                            measures_modules.setHumidity(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_PRESSURE:
-                            measures.setPressure(getJSONString(moduleData, types[i]));
+                            measures_device.setPressure(getJSONString(moduleData, types[i]));
+                            measures_modules.setPressure(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_NOISE:
-                            measures.setNoise(getJSONString(moduleData, types[i]));
+                            measures_device.setNoise(getJSONString(moduleData, types[i]));
+                            measures_modules.setNoise(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_MIN_TEMP:
-                            measures.setMinTemp(getJSONString(moduleData, types[i]));
+                            measures_device.setMinTemp(getJSONString(moduleData, types[i]));
+                            measures_modules.setMinTemp(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_MAX_TEMP:
-                            measures.setMaxTemp(getJSONString(moduleData, types[i]));
+                            measures_device.setMaxTemp(getJSONString(moduleData, types[i]));
+                            measures_modules.setMaxTemp(getJSONString(moduleData, types[i]));
                             break;
                         default:
                     }
-
                 }
 
-                result.put(currentId, measures);
-            }
-            // We parse all the modules
-            JSONArray modules = body.getJSONArray("modules");
-            for (int j = 0; j < modules.length(); j++) {
-                Measures measures = new Measures();
-                JSONObject module = modules.getJSONObject(j);
-                String currentId = module.getString("_id");
-                JSONObject moduleData = module.getJSONObject("dashboard_data");
-
-                String beginTime = moduleData.getString("time_utc");
-                measures.setBeginTime((beginTime == null) ? 0 : Long.parseLong(beginTime) * 1000);
-
-                for (int i = 0; i < types.length; i++) {
-                    switch (types[i]){
-                        case Params.TYPE_TEMPERATURE:
-                            measures.setTemperature(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_CO2:
-                            measures.setCO2(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_HUMIDITY:
-                            measures.setHumidity(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_PRESSURE:
-                            measures.setPressure(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_NOISE:
-                            measures.setNoise(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_MIN_TEMP:
-                            measures.setMinTemp(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_MAX_TEMP:
-                            measures.setMaxTemp(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_RAIN:
-                            measures.setRain(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_RAIN_SUM_1:
-                            measures.setSum_rain_1(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_RAIN_SUM_24:
-                            measures.setSum_rain_24(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_WIND_ANGLE:
-                            measures.setWindAngle(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_WIND_STRENGTH:
-                            measures.setWindStrength(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_GUST_ANGLE:
-                            measures.setGustAngle(getJSONString(moduleData, types[i]));
-                            break;
-                        case Params.TYPE_GUST_STRENGTH:
-                            measures.setGustStrength(getJSONString(moduleData, types[i]));
-                            break;
-                        default:
-                    }
-
-                }
-
-                result.put(currentId, measures);
+                result.put(current_device_id, measures_device);
+                result.put(current_modules_id, measures_modules);
             }
         } catch (JSONException e) {
             e.printStackTrace();
