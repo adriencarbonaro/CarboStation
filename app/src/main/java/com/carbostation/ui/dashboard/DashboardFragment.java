@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
 import com.carbostation.R;
-import com.carbostation.TempManager;
 import com.carbostation.netatmo_api.model.Measures;
 import com.carbostation.netatmo_api.model.Params;
 import com.carbostation.netatmo_sample.ResponseManager;
@@ -32,7 +31,6 @@ import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 public class DashboardFragment extends Fragment {
 
     private String TAG="DashboardFragment";
-    static private TempManager   temp_manager;
     private SampleHttpClient     http_client;
     private Response.Listener<String> dashboard_public_response;
     private Response.Listener<String> dashboard_station_response;
@@ -45,10 +43,6 @@ public class DashboardFragment extends Fragment {
         super.onCreate(savedInstanceState);
         /* Create TempManager instance */
         Log.d(TAG, "create");
-        if (temp_manager == null) {
-            Log.v(TAG, "create new temp");
-            temp_manager = new TempManager(12, 13);
-        }
         this.initDashboardListeners();
         http_client = SampleHttpClient.getInstance(getContext());
     }
@@ -61,9 +55,6 @@ public class DashboardFragment extends Fragment {
         dashboard_title = root.findViewById(R.id.dashboard_title);
         dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_int_value);
         dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value);
-        dashboard_title.setText("Temperatures:");
-        dashboard_temp_int_value.setText(String.valueOf(temp_manager.getTempInt()));
-        dashboard_temp_out_value.setText(String.valueOf(temp_manager.getTempOut()));
         return root;
     }
 
@@ -78,8 +69,6 @@ public class DashboardFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.v(TAG, "pause");
-        temp_manager.setTempInt(temp_manager.getTempInt() + 1);
-        temp_manager.setTempOut(temp_manager.getTempOut() + 1);
     }
 
     @Override
