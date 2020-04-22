@@ -18,20 +18,8 @@
         tools:layout="@layout/ui_fragment_dashoard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.carbostation.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/ui_fragment_notifications" />
-
-    <fragment
-        android:id="@+id/navigation_other"
-        android:name="com.carbostation.ui.other.OtherFragment"
-        android:label="@string/title_other"
-        tools:layout="@layout/ui_fragment_other" />
-
-    <fragment
-        android:id="@+id/navigation_last"
-        android:name="com.carbostation.ui.last.LastFragment"
-        android:label="@string/title_last"
-        tools:layout="@layout/ui_fragment_last" />
+        android:id="@+id/navigation_status"
+        android:name="com.carbostation.ui.status.StatusFragment"
+        android:label="@string/title_status"
+        tools:layout="@layout/ui_fragment_status" />
 </navigation>
