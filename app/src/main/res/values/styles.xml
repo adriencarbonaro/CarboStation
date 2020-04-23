@@ -6,12 +6,16 @@
         <item name="colorPrimary">@color/color_logo_blue</item>
         <item name="colorPrimaryDark">@color/color_logo_blue</item>
         <item name="colorAccent">@color/color_red</item>
-        <item name="android:statusBarColor">@color/color_logo_green</item>
+        <item name="android:statusBarColor">@color/color_logo_blue</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.SplashScreen">
+        <item name="android:statusBarColor">@color/color_logo_green</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
