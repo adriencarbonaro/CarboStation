@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             R.id.navigation_status
         ).build();
         NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
-        NavigationUI.setupActionBarWithNavController(this, bottom_nav_controller, app_bar_configuration);
         NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
 
         /* Login to Netatmo API */
