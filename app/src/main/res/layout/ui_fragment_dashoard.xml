@@ -32,7 +32,7 @@
         android:id="@+id/dashboard_temp_in_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorLightGrey"
+        android:background="@color/colorLightestGrey"
         app:layout_constraintBottom_toTopOf="@+id/dashboard_temp_out_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

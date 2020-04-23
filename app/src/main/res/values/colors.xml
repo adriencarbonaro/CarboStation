@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#61AFEF</color>
     <color name="colorPrimaryDark">#282C34</color>
+    <color name="colorLogoBlue">#185A9D</color>
+    <color name="colorLogoInterm">#2E94A0</color>
+    <color name="colorLogoGreen">#43CEA2</color>
     <color name="colorAccent">#E56464</color>
     <color name="colorBlue">#61AFEF</color>
     <color name="colorGreen">#98C379</color>
