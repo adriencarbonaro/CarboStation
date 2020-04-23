@@ -2,6 +2,7 @@ package com.carbostation;
 
 import android.os.Bundle;
 
+import com.carbostation.netatmo_sample.SampleHttpClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,21 +11,50 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import static com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED;
+
 public class MainActivity extends AppCompatActivity {
+
+    // Bottom navigation item
+    private BottomNavigationView bottom_nav_view;
+    private SampleHttpClient     http_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        setContentView(R.layout.ui_activity_main);
+
+        initBottomNavBar();
+
+        /* Login to Netatmo API */
+        http_client = SampleHttpClient.getInstance(this);
+        http_client.login(
+            "carbonaro.adrien@gmail.com",
+            "Dekide.X9"
+        );
+    }
+
+    /**
+     * @brief Initialize bottom navigation bar.
+     */
+    protected void initBottomNavBar() {
+        bottom_nav_view = findViewById(R.id.bottom_nav_view);
+
+        /* Bottom nav bar labels are visible only on selected item */
+        bottom_nav_view.setLabelVisibilityMode(LABEL_VISIBILITY_SELECTED);
+        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
+        NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
+
+        /* Setup menu controller.
+         *
+         * Passing each menu ID as a set of IDs
+         * because each menu should be considered as top level destinations.
+         */
+        AppBarConfiguration app_bar_configuration = new AppBarConfiguration.Builder(
+            R.id.navigation_home,
+            R.id.navigation_dashboard,
+            R.id.navigation_status
+        ).build();
     }
 
 }

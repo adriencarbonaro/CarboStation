@@ -1,4 +1,4 @@
-package com.carbostation.ui.home;
+package com.carbostation.ui.status;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 
 import com.carbostation.R;
 
-public class HomeFragment extends Fragment {
+public class StatusFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+        View root = inflater.inflate(R.layout.ui_fragment_status, container, false);
+        final TextView textView = root.findViewById(R.id.text_status);
         return root;
     }
 }

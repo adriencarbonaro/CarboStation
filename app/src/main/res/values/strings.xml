@@ -2,9 +2,11 @@
     <string name="app_name">CarboStation</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_status">Status</string>
 
     <string name="dashboard_title">Temperature</string>
-    <string name="dashboard_temp_int_title">Int.</string>
+    <string name="dashboard_temp_in_title">In.</string>
     <string name="dashboard_temp_out_title">Out.</string>
+    <string name="dashboard_temp_null">--</string>
+    <string name="dashboard_temp_unit">°C</string>
 </resources>
