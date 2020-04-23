@@ -77,6 +77,17 @@ public class DashboardFragment extends Fragment {
         Log.v(TAG, "resume");
     }
 
+    public void updateView(String title, String temp_in, String temp_out) {
+        if (title != null) { dashboard_title.setText(title); }
+        else { dashboard_title.setText(getString(R.string.dashboard_title)); }
+
+        if (temp_in != null) { dashboard_temp_int_value.setText(temp_in); }
+        else { dashboard_temp_int_value.setText(R.string.dashboard_temp_null); }
+
+        if (temp_out != null) { dashboard_temp_out_value.setText(temp_out); }
+        else { dashboard_temp_out_value.setText(getString(R.string.dashboard_temp_null)); }
+    }
+
     public void initDashboardListeners() {
         /* Station data listener */
         dashboard_station_response = new Response.Listener<String>() {
@@ -98,17 +109,9 @@ public class DashboardFragment extends Fragment {
 
                     temp_in  = String.valueOf(measures.get(getString(R.string.device_id)).getTemperature());
                     temp_out = String.valueOf(measures.get(getString(R.string.module_id)).getTemperature());
+                    updateView(title, temp_in, temp_out);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-                if (title != null) {
-                    dashboard_title.setText(title);
-                    dashboard_temp_int_value.setText(temp_in  + " °C");
-                    dashboard_temp_out_value.setText(temp_out + " °C");
-                } else {
-                    dashboard_title.setText("ERROR");
-                    dashboard_temp_int_value.setText("ERROR");
-                    dashboard_temp_out_value.setText("ERROR");
                 }
             }
         };
