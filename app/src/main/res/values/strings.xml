@@ -7,4 +7,6 @@
     <string name="dashboard_title">Temperature</string>
     <string name="dashboard_temp_int_title">In.</string>
     <string name="dashboard_temp_out_title">Out.</string>
+    <string name="dashboard_temp_null">--</string>
+    <string name="dashboard_temp_unit">°C</string>
 </resources>

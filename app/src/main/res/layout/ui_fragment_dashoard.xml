@@ -32,7 +32,7 @@
         android:id="@+id/dashboard_temp_int_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorGrey"
+        android:background="@color/colorLightGrey"
         app:layout_constraintBottom_toTopOf="@+id/dashboard_temp_out_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +42,7 @@
             android:id="@+id/dashboard_temp_int_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/squada_one"
@@ -49,7 +50,6 @@
             android:textColor="@color/colorBlue"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/dashboard_temp_int_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,13 +58,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/squada_one"
-            android:text=""
+            android:text="@string/dashboard_temp_null"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dashboard_temp_int_unit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dashboard_temp_int_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/squada_one"
+            android:text="@string/dashboard_temp_unit"
+            android:textColor="@color/colorGrey"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dashboard_temp_int_title"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,7 +88,7 @@
         android:id="@+id/dashboard_temp_out_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorDarkGrey"
+        android:background="@color/colorLightestGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +98,7 @@
             android:id="@+id/dashboard_temp_out_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/squada_one"
@@ -89,7 +106,6 @@
             android:textColor="@color/colorGreen"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/dashboard_temp_out_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,13 +114,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/squada_one"
-            android:text=""
+            android:text="@string/dashboard_temp_null"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dashboard_temp_out_unit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dashboard_temp_out_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/squada_one"
+            android:text="@string/dashboard_temp_unit"
+            android:textColor="@color/colorGrey"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dashboard_temp_out_title"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
