@@ -22,17 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_activity_main);
 
-        bottom_nav_view = findViewById(R.id.bottom_nav_view);
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration app_bar_configuration = new AppBarConfiguration.Builder(
-            R.id.navigation_home,
-            R.id.navigation_dashboard,
-            R.id.navigation_status
-        ).build();
-        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
-        NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
+        initBottomNavBar();
 
         /* Login to Netatmo API */
         http_client = SampleHttpClient.getInstance(this);
@@ -40,6 +30,27 @@ public class MainActivity extends AppCompatActivity {
             "carbonaro.adrien@gmail.com",
             "Dekide.X9"
         );
+    }
+
+    /**
+     * @brief Initialize bottom navigation bar.
+     */
+    protected void initBottomNavBar() {
+        bottom_nav_view = findViewById(R.id.bottom_nav_view);
+
+        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
+        NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
+
+        /* Setup menu controller.
+         *
+         * Passing each menu ID as a set of IDs
+         * because each menu should be considered as top level destinations.
+         */
+        AppBarConfiguration app_bar_configuration = new AppBarConfiguration.Builder(
+            R.id.navigation_home,
+            R.id.navigation_dashboard,
+            R.id.navigation_status
+        ).build();
     }
 
 }
