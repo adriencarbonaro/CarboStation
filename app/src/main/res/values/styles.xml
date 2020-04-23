@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorLogoBlue</item>
         <item name="colorPrimaryDark">@color/colorLogoBlue</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorLogoGreen</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
