@@ -146,23 +146,23 @@ public class NetatmoUtils {
                             measures_modules.setCO2(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_HUMIDITY:
-                            measures_device.setHumidity(getJSONString(moduleData, types[i]));
+                            measures_device.setHumidity(getJSONString(deviceData, types[i]));
                             measures_modules.setHumidity(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_PRESSURE:
-                            measures_device.setPressure(getJSONString(moduleData, types[i]));
+                            measures_device.setPressure(getJSONString(deviceData, types[i]));
                             measures_modules.setPressure(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_NOISE:
-                            measures_device.setNoise(getJSONString(moduleData, types[i]));
+                            measures_device.setNoise(getJSONString(deviceData, types[i]));
                             measures_modules.setNoise(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_MIN_TEMP:
-                            measures_device.setMinTemp(getJSONString(moduleData, types[i]));
+                            measures_device.setMinTemp(getJSONString(deviceData, types[i]));
                             measures_modules.setMinTemp(getJSONString(moduleData, types[i]));
                             break;
                         case Params.TYPE_MAX_TEMP:
-                            measures_device.setMaxTemp(getJSONString(moduleData, types[i]));
+                            measures_device.setMaxTemp(getJSONString(deviceData, types[i]));
                             measures_modules.setMaxTemp(getJSONString(moduleData, types[i]));
                             break;
                         default:
