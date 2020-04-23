@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#61AFEF</color>
-    <color name="colorPrimaryDark">#282C34</color>
-    <color name="colorLogoBlue">#185A9D</color>
-    <color name="colorLogoInterm">#2E94A0</color>
-    <color name="colorLogoGreen">#43CEA2</color>
-    <color name="colorAccent">#E56464</color>
-    <color name="colorBlue">#61AFEF</color>
-    <color name="colorGreen">#98C379</color>
-    <color name="colorLightestGrey">#EDEDED</color>
-    <color name="colorLightGrey">#DCDCDC</color>
-    <color name="colorGrey">#ACACAC</color>
-    <color name="colorDarkGrey">#7E7A7A</color>
+    <color name="color_primary">#61AFEF</color>
+    <color name="color_primary_dark">#282C34</color>
+    <color name="color_logo_blue">#185A9D</color>
+    <color name="color_logo_interm">#2E94A0</color>
+    <color name="color_logo_green">#43CEA2</color>
+    <color name="color_red">#E56464</color>
+    <color name="color_blue">#61AFEF</color>
+    <color name="color_green">#98C379</color>
+    <color name="color_lightest_grey">#EDEDED</color>
+    <color name="color_light_grey">#DCDCDC</color>
+    <color name="color_grey">#ACACAC</color>
+    <color name="color_dark_grey">#7E7A7A</color>
 </resources>
