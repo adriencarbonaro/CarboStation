@@ -179,6 +179,18 @@ public class NetatmoUtils {
         return result;
     }
 
+    public static String getStationName(JSONObject response) {
+        try {
+            return response.getJSONObject("body")
+                    .getJSONArray("devices")
+                    .getJSONObject(0)
+                    .getString("station_name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private static String getStringFromObject(Object object) {
         String string = object.toString();
 

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static com.carbostation.netatmo_api.NetatmoUtils.getStationName;
 import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 
 
@@ -98,9 +99,7 @@ public class DashboardFragment extends Fragment {
                     String[] types = {
                             Params.TYPE_TEMPERATURE,
                     };
-                    title = json_response.getJSONObject("body")
-                            .getJSONArray("devices").getJSONObject(0)
-                            .getString("station_name");
+                    title = getStationName(json_response);
                     HashMap<String, Measures> measures = parseMeasures(json_response, types);
 
                     temp_in  = String.valueOf(measures.get(getString(R.string.device_id)).getTemperature());
