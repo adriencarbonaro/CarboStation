@@ -1,8 +1,6 @@
 package com.carbostation.ui.dashboard;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,7 @@ import com.android.volley.Response;
 import com.carbostation.R;
 import com.carbostation.netatmo_api.model.Measures;
 import com.carbostation.netatmo_api.model.Params;
-import com.carbostation.netatmo_sample.ResponseManager;
 import com.carbostation.netatmo_sample.SampleHttpClient;
-import com.carbostation.netatmo_api.NetatmoUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +49,8 @@ public class DashboardFragment extends Fragment {
         Log.v(TAG, "OnCreateView");
         View root = inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
         dashboard_title = root.findViewById(R.id.dashboard_title);
-        dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_int_value);
-        dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value);
+        dashboard_temp_int_value = root.findViewById(R.id.dashboard_temp_in_value_current);
+        dashboard_temp_out_value = root.findViewById(R.id.dashboard_temp_out_value_current);
         return root;
     }
 

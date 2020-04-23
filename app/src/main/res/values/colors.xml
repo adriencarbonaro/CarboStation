@@ -5,8 +5,8 @@
     <color name="colorAccent">#E56464</color>
     <color name="colorBlue">#61AFEF</color>
     <color name="colorGreen">#98C379</color>
-    <color name="colorLightGrey">#EDEDED</color>
-    <color name="colorLightestGrey">#DCDCDC</color>
+    <color name="colorLightestGrey">#EDEDED</color>
+    <color name="colorLightGrey">#DCDCDC</color>
     <color name="colorGrey">#ACACAC</color>
     <color name="colorDarkGrey">#7E7A7A</color>
 </resources>
