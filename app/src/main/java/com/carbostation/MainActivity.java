@@ -11,6 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import static com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED;
+
 public class MainActivity extends AppCompatActivity {
 
     // Bottom navigation item
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void initBottomNavBar() {
         bottom_nav_view = findViewById(R.id.bottom_nav_view);
 
+        /* Bottom nav bar labels are visible only on selected item */
+        bottom_nav_view.setLabelVisibilityMode(LABEL_VISIBILITY_SELECTED);
         NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
         NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
 
