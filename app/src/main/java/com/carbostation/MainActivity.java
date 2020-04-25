@@ -15,14 +15,20 @@ import static com.google.android.material.bottomnavigation.LabelVisibilityMode.L
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     // Bottom navigation item
     private BottomNavigationView bottom_nav_view;
     private SampleHttpClient     http_client;
+    private static OAuthManager oauth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_activity_main);
+
+        oauth = new OAuthManager(getIntent());
+        oauth.handleApiUri();
 
         initBottomNavBar();
 

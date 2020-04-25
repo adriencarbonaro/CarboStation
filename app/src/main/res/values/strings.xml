@@ -1,9 +1,18 @@
 <resources>
+    <!-- App constants -->
     <string name="app_name">CarboStation</string>
+
+    <!-- OAuth2 redirect URI -->
+    <string name="redirect_uri_scheme">http</string>
+    <string name="redirect_uri_host">www.carbostation.io</string>
+    <string name="redirect_uri_path_prefix">/auth</string>
+
+    <!-- Views -->
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_status">Status</string>
 
+    <!-- Dashboard view constants -->
     <string name="dashboard_title">Temperature</string>
     <string name="dashboard_temp_in_title">In.</string>
     <string name="dashboard_temp_out_title">Out.</string>

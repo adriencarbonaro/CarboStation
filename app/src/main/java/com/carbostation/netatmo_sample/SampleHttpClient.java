@@ -21,9 +21,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import static com.carbostation.netatmo_api.model.Params.TYPE_CO2;
-import static com.carbostation.netatmo_api.model.Params.TYPE_TEMPERATURE;
-
 /**
  * This is just an example of how you can extend NetatmoHttpClient.
  * Tokens are stored in the shared preferences of the app, but you can store them as you wish
