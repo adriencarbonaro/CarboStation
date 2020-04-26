@@ -4,19 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import java.util.List;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.carbostation.R;
 
 import com.carbostation.netatmo_api.NetatmoHttpClient;
 import com.carbostation.netatmo_api.NetatmoUtils;
-import com.carbostation.netatmo_api.model.Measures;
-import com.carbostation.netatmo_api.model.Params;
 import com.carbostation.netatmo_api.model.Station;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,34 +29,15 @@ public class SampleHttpClient extends NetatmoHttpClient {
     private static final String TAG = "SampleHttpClient";
     Context context;
 
-    SharedPreferences mSharedPreferences;
-    public ResponseManager _listener_login;
-    public ErrorResponseManager _error_listener_login;
-    public ResponseManager _listener_get_public_data;
-    public ErrorResponseManager _error_listener_get_public_data;
-    public ResponseManager _listener_get_stations_data;
-    public ErrorResponseManager _error_listener_get_stations_data;
+    SharedPreferences _shared_preferences;
     private JSONObject obj;
-
-    public enum listener_type {
-        LISTENER_LOGIN,
-        LISTENER_GET_PUBLIC_DATA,
-        LISTENER_GET_STATIONS_DATA,
-    }
 
     private static SampleHttpClient INSTANCE = null;
 
     private SampleHttpClient(Context context) {
         super(context);
         this.context = context;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        _listener_login                   = new ResponseManager(listener_type.LISTENER_LOGIN);
-        _error_listener_login             = new ErrorResponseManager(listener_type.LISTENER_LOGIN);
-        _listener_get_public_data         = new ResponseManager(listener_type.LISTENER_GET_PUBLIC_DATA);
-        _error_listener_get_public_data   = new ErrorResponseManager(listener_type.LISTENER_GET_PUBLIC_DATA);
-        _listener_get_stations_data       = new ResponseManager(listener_type.LISTENER_GET_STATIONS_DATA);
-        _error_listener_get_stations_data = new ErrorResponseManager(listener_type.LISTENER_GET_STATIONS_DATA);
+        _shared_preferences = PreferenceManager.getDefaultSharedPreferences(context);
     };
 
     public static synchronized SampleHttpClient getInstance(Context context) {
@@ -69,14 +47,13 @@ public class SampleHttpClient extends NetatmoHttpClient {
         return(INSTANCE);
     }
 
-    public void login(String email, String password) {
-        login(
-            email, password,
-            _listener_login,
-            _error_listener_login
-        );
+    public void refreshToken(String refresh_token, Response.Listener<String> listener) {
+        refreshToken(refresh_token, listener, null);
     }
 
+    public void requestAccessToken(String code, Response.Listener<String> listener) {
+        requestAccessToken(code, listener, null);
+    }
     /**
      * processOAuthResponse.
      * @param response
@@ -89,15 +66,10 @@ public class SampleHttpClient extends NetatmoHttpClient {
                 Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT))
         );
     }
-    public void processGetPublicDataResponse(JSONObject response){
-        //HashMap<String,String> parsedResponse = NetatmoUtils.parseMeasures(response);
-        //storeTokens(parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
-        //        parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-        //        Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT)));
-    }
+
     public void processGetStationsDataResponse(JSONObject response){
         List<Station> parsedDevicesList = NetatmoUtils.parseDevicesList(response);
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        SharedPreferences.Editor editor = _shared_preferences.edit();
         editor.putString("STATION_NAME", parsedDevicesList.get(0).getName());
         editor.apply();
     }
@@ -114,63 +86,41 @@ public class SampleHttpClient extends NetatmoHttpClient {
         params.put("required_data", required_data);
         params.put("filter", "true");
 
-        post(
-            URL_GET_PUBLIC_DATA,
+        get(
+            URL_API_GET_PUBLIC_DATA,
             params,
-            _listener_get_public_data,
-            _error_listener_get_public_data
+            null,
+            null
         );
     }
 
     public void getStationsData(String device_id, Response.Listener<String> listener) {
         HashMap<String,String> params = new HashMap<>();
-        params.put("access_token", getAccessToken());
-        params.put("device_id", device_id);
+        // Replace token by getAccessToken. This is for debug because of the null token error
+        params.put(NetatmoUtils.KEY_ACCESS_TOKEN, _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN, null));
+        params.put(NetatmoUtils.KEY_DEVICE_ID, device_id);
 
-        post(
-            URL_GET_STATIONS_DATA,
+        get(
+            URL_API_GET_STATIONS_DATA,
             params,
             listener,
-            _error_listener_get_stations_data
+            null
         );
-    }
-
-    //-- Netatmo API response listeners --------------------------------------
-    public ResponseManager getListener(listener_type type) {
-        if (type == listener_type.LISTENER_LOGIN) {
-            return _listener_login;
-        } else if (type == listener_type.LISTENER_GET_PUBLIC_DATA) {
-            return _listener_get_public_data;
-        } else {
-            return null;
-        }
-    }
-
-    public ErrorResponseManager getErrorListener(listener_type type) {
-        if (type == listener_type.LISTENER_LOGIN) return _error_listener_login;
-        else if (type == listener_type.LISTENER_GET_PUBLIC_DATA) return _error_listener_get_public_data;
-        else return null;
     }
 
     //-- Netatmo API credentials information ---------------------------------
     @Override
-    protected String getClientId() {
-        return context.getString(R.string.client_id);
-    }
+    protected String getClientId() { return context.getString(R.string.client_id); }
 
     @Override
-    protected String getClientSecret() {
-        return context.getString(R.string.client_secret);
-    }
+    protected String getClientSecret() { return context.getString(R.string.client_secret); }
 
     @Override
-    protected String getAppScope() {
-        return context.getString(R.string.app_scope);
-    }
+    protected String getAppScope() { return context.getString(R.string.app_scope); }
 
     @Override
     protected void storeTokens(String refreshToken, String accessToken, long expiresAt) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        SharedPreferences.Editor editor = _shared_preferences.edit();
         editor.putString(NetatmoUtils.KEY_REFRESH_TOKEN, refreshToken);
         editor.putString(NetatmoUtils.KEY_ACCESS_TOKEN, accessToken);
         editor.putLong(NetatmoUtils.KEY_EXPIRES_AT, expiresAt);
@@ -179,24 +129,23 @@ public class SampleHttpClient extends NetatmoHttpClient {
 
     @Override
     protected void clearTokens() {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        SharedPreferences.Editor editor = _shared_preferences.edit();
         editor.clear();
         editor.apply();
     }
 
     @Override
     protected String getRefreshToken() {
-        return mSharedPreferences.getString(NetatmoUtils.KEY_REFRESH_TOKEN, null);
+        return _shared_preferences.getString(NetatmoUtils.KEY_REFRESH_TOKEN, null);
     }
 
     @Override
     protected String getAccessToken() {
-        return mSharedPreferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN,null);
+        return _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN,null);
     }
 
     @Override
     protected long getExpiresAt() {
-        Log.d("TAG", "EXPIRRR");
-        return mSharedPreferences.getLong(NetatmoUtils.KEY_EXPIRES_AT,0);
+        return _shared_preferences.getLong(NetatmoUtils.KEY_EXPIRES_AT,0);
     }
 }

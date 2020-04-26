@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Netatmo API url params -->
+    <string name="client_id">5d91f75affda1ef97f7340ef</string>
+    <string name="client_secret">1zsIWwTt5wbMNAtlaF59hnR9Mz2vIpYTXdalAOS</string>
+    <string name="app_scope">read_station</string>
+    <string name="device_id">70:ee:50:13:67:ca</string>
+    <string name="module_id">02:00:00:13:79:ec</string>
+
+    <!-- OAuth2 redirect URI -->
+    <string name="redirect_uri">http://www.carbostation.io/auth</string>
+    <string name="redirect_uri_scheme">http</string>
+    <string name="redirect_uri_host">www.carbostation.io</string>
+    <string name="redirect_uri_path_prefix">/auth</string>
+
+</resources>

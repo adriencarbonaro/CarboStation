@@ -43,8 +43,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* Create TempManager instance */
-        Log.d(TAG, "create");
         this.initDashboardListeners();
         http_client = SampleHttpClient.getInstance(getContext());
     }
@@ -52,7 +50,6 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.v(TAG, "OnCreateView");
         View root = inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
 
         dashboard_title = root.findViewById(R.id.dashboard_title);
@@ -69,20 +66,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.v(TAG, "onActivityCreated");
         http_client.getStationsData(getString(R.string.device_id), dashboard_station_response);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.v(TAG, "pause");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.v(TAG, "resume");
     }
 
     public void updateView(String title, String temp_in, String temp_in_min, String temp_in_max,
@@ -113,7 +97,7 @@ public class DashboardFragment extends Fragment {
         dashboard_station_response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, response);
+                Log.i("HTTP", "<--          " + response);
                 String title        = null;
                 String temp_in      = null;
                 String temp_in_min  = null;

@@ -20,35 +20,24 @@ public class MainActivity extends AppCompatActivity {
     // Bottom navigation item
     private BottomNavigationView bottom_nav_view;
     private SampleHttpClient     http_client;
-    private static OAuthManager oauth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_activity_main);
 
-        oauth = new OAuthManager(getIntent());
-        oauth.handleApiUri();
-
         initBottomNavBar();
-
-        /* Login to Netatmo API */
-        http_client = SampleHttpClient.getInstance(this);
-        http_client.login(
-            "carbonaro.adrien@gmail.com",
-            "Dekide.X9"
-        );
     }
 
     /**
      * @brief Initialize bottom navigation bar.
      */
     protected void initBottomNavBar() {
-        bottom_nav_view = findViewById(R.id.bottom_nav_view);
+        bottom_nav_view = findViewById(R.id.main_BottomNavigationView);
 
         /* Bottom nav bar labels are visible only on selected item */
         bottom_nav_view.setLabelVisibilityMode(LABEL_VISIBILITY_SELECTED);
-        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.nav_fragment_host);
+        NavController bottom_nav_controller = Navigation.findNavController(this, R.id.main_fragment);
         NavigationUI.setupWithNavController(bottom_nav_view, bottom_nav_controller);
 
         /* Setup menu controller.

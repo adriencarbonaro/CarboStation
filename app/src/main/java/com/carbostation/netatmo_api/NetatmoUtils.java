@@ -15,6 +15,7 @@
  */
 package com.carbostation.netatmo_api;
 
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -22,18 +23,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.carbostation.R;
 import com.carbostation.netatmo_api.model.Measures;
 import com.carbostation.netatmo_api.model.Module;
 import com.carbostation.netatmo_api.model.Params;
 import com.carbostation.netatmo_api.model.Station;
 
 public class NetatmoUtils {
+
+    public static final String TAG = "NetatmoUtils";
+
+    /* API requests parameters */
     public static final String KEY_ACCESS_TOKEN  = "access_token";
     public static final String KEY_REFRESH_TOKEN = "refresh_token";
+    public static final String KEY_EXPIRES_IN    = "expires_in";
     public static final String KEY_EXPIRES_AT    = "expires_at";
+    public static final String KEY_GRANT_TYPE    = "grant_type";
+    public static final String KEY_CLIENT_ID     = "client_id";
+    public static final String KEY_CLIENT_SECRET = "client_secret";
+    public static final String KEY_SCOPE         = "scope";
+    public static final String KEY_REDIRECT_URI  = "redirect_uri";
+    public static final String KEY_STATE         = "state";
+    public static final String KEY_CODE          = "code";
+    public static final String KEY_USERNAME      = "username";
+    public static final String KEY_PASSWORD      = "password";
+    public static final String KEY_DEVICE_ID     = "device_id";
 
     public static final String KEY_PARAM_TEMPERATURE = "temperature";
 
@@ -44,15 +62,15 @@ public class NetatmoUtils {
         HashMap<String, String> parsedResponse = new HashMap<String, String>();
 
         try {
-            String refreshToken = response.getString("refresh_token");
-            parsedResponse.put("refresh_token", refreshToken);
+            String access_token = response.getString(NetatmoUtils.KEY_ACCESS_TOKEN);
+            parsedResponse.put(NetatmoUtils.KEY_ACCESS_TOKEN, access_token);
 
-            String accessToken = response.getString("access_token");
-            parsedResponse.put("access_token", accessToken);
+            String refresh_token = response.getString(NetatmoUtils.KEY_REFRESH_TOKEN);
+            parsedResponse.put(NetatmoUtils.KEY_REFRESH_TOKEN, refresh_token);
 
-            String expiresIn = response.getString("expires_in");
-            Long expiresAt = System.currentTimeMillis() + Long.valueOf(expiresIn) * 1000;
-            parsedResponse.put("expires_at", expiresAt.toString());
+            String expires_in = response.getString(NetatmoUtils.KEY_EXPIRES_IN);
+            Long expires_at = System.currentTimeMillis() + Long.valueOf(expires_in) * 1000;
+            parsedResponse.put(NetatmoUtils.KEY_EXPIRES_AT, expires_at.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
