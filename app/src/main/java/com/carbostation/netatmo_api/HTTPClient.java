@@ -30,7 +30,7 @@ import java.util.Map;
 abstract public class HTTPClient {
 
     //volley library part
-    RequestQueue queue;
+    private RequestQueue request_queue;
 
 
     public HTTPClient(Context context){
@@ -56,7 +56,7 @@ abstract public class HTTPClient {
 
 
         Log.i("HTTP", "--> [POST]   " + request.getUrl());
-        queue.add(request);
+        request_queue.add(request);
     }
 
     /**
@@ -76,7 +76,7 @@ abstract public class HTTPClient {
         };
 
         Log.i("HTTP", "--> [GET]    " + request.getUrl());
-        queue.add(request);
+        request_queue.add(request);
     }
 
     /**

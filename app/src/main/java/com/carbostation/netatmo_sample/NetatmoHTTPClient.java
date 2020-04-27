@@ -29,7 +29,7 @@ public class NetatmoHTTPClient extends HTTPClient {
     private static final String TAG = "NetatmoHTTPClient";
     Context context;
 
-    SharedPreferences _shared_preferences;
+    private SharedPreferences _shared_preferences;
     private JSONObject obj;
 
     private static NetatmoHTTPClient INSTANCE = null;
