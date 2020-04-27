@@ -77,19 +77,19 @@ public class DashboardFragment extends Fragment {
 
         /* Temp in */
         if (temp_in != null) { dashboard_temp_in_value.setText(temp_in); }
-        else { dashboard_temp_in_value.setText(R.string.dashboard_temp_null); }
+        else { dashboard_temp_in_value.setText(R.string.text_null); }
         if (temp_in_min != null) { dashboard_temp_in_min_value.setText(temp_in_min); }
-        else { dashboard_temp_in_min_value.setText(R.string.dashboard_temp_null); }
+        else { dashboard_temp_in_min_value.setText(R.string.text_null); }
         if (temp_in_max != null) { dashboard_temp_in_max_value.setText(temp_in_max); }
-        else { dashboard_temp_in_max_value.setText(R.string.dashboard_temp_null); }
+        else { dashboard_temp_in_max_value.setText(R.string.text_null); }
 
         /* Temp out */
         if (temp_out != null) { dashboard_temp_out_value.setText(temp_out); }
-        else { dashboard_temp_out_value.setText(getString(R.string.dashboard_temp_null)); }
+        else { dashboard_temp_out_value.setText(getString(R.string.text_null)); }
         if (temp_out_min != null) { dashboard_temp_out_min_value.setText(temp_out_min); }
-        else { dashboard_temp_out_min_value.setText(R.string.dashboard_temp_null); }
+        else { dashboard_temp_out_min_value.setText(R.string.text_null); }
         if (temp_out_max != null) { dashboard_temp_out_max_value.setText(temp_out_max); }
-        else { dashboard_temp_out_max_value.setText(R.string.dashboard_temp_null); }
+        else { dashboard_temp_out_max_value.setText(R.string.text_null); }
     }
 
     public void initDashboardListeners() {
