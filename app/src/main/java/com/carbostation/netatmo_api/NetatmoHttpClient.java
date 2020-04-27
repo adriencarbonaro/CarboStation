@@ -17,6 +17,7 @@ package com.carbostation.netatmo_api;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,10 +40,10 @@ abstract public class NetatmoHttpClient {
 
     // API URLs that will be used for requests, see: https://dev.netatmo.com/doc.
     protected final String URL_BASE = "https://api.netatmo.net";
-    protected final String URL_REQUEST_TOKEN = URL_BASE + "/oauth2/token";
-    protected final String URL_GET_DEVICES_LIST = URL_BASE + "/api/devicelist";
-    protected final String URL_GET_PUBLIC_DATA = URL_BASE + "/api/getpublicdata";
-    protected final String URL_GET_STATIONS_DATA = URL_BASE + "/api/getstationsdata";
+    protected final String URL_OAUTH_REQUEST_TOKEN     = URL_BASE + "/oauth2/token";
+    protected final String URL_API_GET_DEVICES_LIST    = URL_BASE + "/api/devicelist";
+    protected final String URL_API_GET_PUBLIC_DATA     = URL_BASE + "/api/getpublicdata";
+    protected final String URL_API_GET_STATIONS_DATA   = URL_BASE + "/api/getstationsdata";
 
     public NetatmoHttpClient(Context context){
         queue = Volley.newRequestQueue(context);
@@ -50,13 +51,13 @@ abstract public class NetatmoHttpClient {
 
 
     /**
-     * Post request using volley
+     * Send POST request using volley.
      * @param url
      * @param params
      * @param successListener
      * @param errorListener
      */
-    protected void post(String url, final HashMap<String,String> params, Response.Listener<String> successListener, Response.ErrorListener errorListener){
+    protected void POST(String url, final HashMap<String,String> params, Response.Listener<String> successListener, Response.ErrorListener errorListener){
 
         StringRequest request = new StringRequest(Request.Method.POST, url,successListener,errorListener) {
             @Override
@@ -66,6 +67,27 @@ abstract public class NetatmoHttpClient {
         };
 
 
+        Log.i("HTTP", "--> [POST]   " + request.getUrl());
+        queue.add(request);
+    }
+
+    /**
+     * Send GET request using volley.
+     * @param url
+     * @param params
+     * @param successListener
+     * @param errorListener
+     */
+    protected void GET(String url, final HashMap<String,String> params, Response.Listener<String> successListener, Response.ErrorListener errorListener){
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,successListener,errorListener) {
+            @Override
+            protected Map<String,String> getParams(){
+                return params;
+            }
+        };
+
+        Log.i("HTTP", "--> [GET]    " + request.getUrl());
         queue.add(request);
     }
 
@@ -81,7 +103,6 @@ abstract public class NetatmoHttpClient {
     protected void get(final String url, final HashMap<String,String> params, final Response.Listener<String> successListener, final Response.ErrorListener errorListener){
 
         if(System.currentTimeMillis() >= getExpiresAt()){
-            Log.d("TAG", "IT EXPIRED !");
             refreshToken(getRefreshToken(), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -90,7 +111,7 @@ abstract public class NetatmoHttpClient {
                                 jsonObject= new JSONObject(response);
                                 processOAuthResponse(jsonObject);
                                 params.put("access_token", getAccessToken());
-                                post(url,params,successListener,errorListener);
+                                GET(url,params,successListener,errorListener);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -104,30 +125,8 @@ abstract public class NetatmoHttpClient {
                     });
         }else{
             params.put("access_token", getAccessToken());
-            post(url,params,successListener,errorListener);
+            GET(url,params,successListener,errorListener);
         }
-
-    }
-
-    /**
-     * This is the first request you have to do before being able to use the API.
-     * It allows you to retrieve an access token in one step,
-     * using your application's credentials and the user's credentials.
-     * @param email
-     * @param password
-     * @param successListener
-     * @param errorListener
-     */
-    public void login(String email, String password, Response.Listener<String> successListener, Response.ErrorListener errorListener){
-        HashMap<String,String> params = new HashMap<>();
-        params.put("grant_type", "password");
-        params.put("client_id", getClientId());
-        params.put("client_secret", getClientSecret());
-        params.put("username", email);
-        params.put("password", password);
-        params.put("scope",getAppScope());
-
-        post(URL_REQUEST_TOKEN, params, successListener, errorListener);
 
     }
 
@@ -148,7 +147,19 @@ abstract public class NetatmoHttpClient {
         params.put("client_id", getClientId());
         params.put("client_secret", getClientSecret());
 
-        post(URL_REQUEST_TOKEN, params, successListener, errorListener);
+        POST(URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
+    }
+
+    public void requestAccessToken(String code, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("grant_type", "authorization_code");
+        params.put("client_id", getClientId());
+        params.put("client_secret", getClientSecret());
+        params.put("code", code);
+        params.put("scope", getAppScope());
+        params.put("redirect_uri", "http://www.carbostation.io/auth");
+
+        POST(URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
     }
 
     /**
@@ -160,7 +171,7 @@ abstract public class NetatmoHttpClient {
      * @param errorListener
      */
     public void getDevicesList(Response.Listener<String> successListener, Response.ErrorListener errorListener){
-        get(URL_GET_DEVICES_LIST, new HashMap<String, String>(), successListener, errorListener);
+        get(URL_API_GET_DEVICES_LIST, new HashMap<String, String>(), successListener, errorListener);
     }
 
     /**

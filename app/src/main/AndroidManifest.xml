@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.carbostation">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
@@ -12,6 +13,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -22,9 +24,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name">
         </activity>
+
+        <!-- OAuth Activity -->
+        <activity
+            android:name=".OAuthActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="@string/redirect_uri_scheme"
+                    android:host="@string/redirect_uri_host"
+                    android:pathPrefix="@string/redirect_uri_path_prefix" />
+            </intent-filter>
+        </activity>
+
+        <!-- Meta Data -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
