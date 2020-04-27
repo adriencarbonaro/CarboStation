@@ -2,7 +2,7 @@ package com.carbostation;
 
 import android.os.Bundle;
 
-import com.carbostation.netatmo_sample.SampleHttpClient;
+import com.carbostation.netatmo_sample.NetatmoHTTPClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Bottom navigation item
     private BottomNavigationView bottom_nav_view;
-    private SampleHttpClient     http_client;
+    private NetatmoHTTPClient    http_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

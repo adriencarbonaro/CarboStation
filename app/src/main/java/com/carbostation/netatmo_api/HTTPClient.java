@@ -17,36 +17,24 @@ package com.carbostation.netatmo_api;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-abstract public class NetatmoHttpClient {
+abstract public class HTTPClient {
 
     //volley library part
     RequestQueue queue;
 
 
-    // API URLs that will be used for requests, see: https://dev.netatmo.com/doc.
-    protected final String URL_BASE = "https://api.netatmo.net";
-    protected final String URL_OAUTH_REQUEST_TOKEN     = URL_BASE + "/oauth2/token";
-    protected final String URL_API_GET_DEVICES_LIST    = URL_BASE + "/api/devicelist";
-    protected final String URL_API_GET_PUBLIC_DATA     = URL_BASE + "/api/getpublicdata";
-    protected final String URL_API_GET_STATIONS_DATA   = URL_BASE + "/api/getstationsdata";
-
-    public NetatmoHttpClient(Context context){
-        queue = Volley.newRequestQueue(context);
+    public HTTPClient(Context context){
+        request_queue = Volley.newRequestQueue(context);
     }
 
 
@@ -101,33 +89,8 @@ abstract public class NetatmoHttpClient {
      * @param errorListener
      */
     protected void get(final String url, final HashMap<String,String> params, final Response.Listener<String> successListener, final Response.ErrorListener errorListener){
-
-        if(System.currentTimeMillis() >= getExpiresAt()){
-            refreshToken(getRefreshToken(), new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            JSONObject jsonObject;
-                            try {
-                                jsonObject= new JSONObject(response);
-                                processOAuthResponse(jsonObject);
-                                params.put("access_token", getAccessToken());
-                                GET(url,params,successListener,errorListener);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("errorRefreshToken",error.toString());
-                        }
-                    });
-        }else{
-            params.put("access_token", getAccessToken());
-            GET(url,params,successListener,errorListener);
-        }
-
+        params.put("access_token", getAccessToken());
+        GET(url,params,successListener,errorListener);
     }
 
     /**
@@ -147,7 +110,7 @@ abstract public class NetatmoHttpClient {
         params.put("client_id", getClientId());
         params.put("client_secret", getClientSecret());
 
-        POST(URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
+        POST(NetatmoUtils.URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
     }
 
     public void requestAccessToken(String code, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
@@ -159,7 +122,7 @@ abstract public class NetatmoHttpClient {
         params.put("scope", getAppScope());
         params.put("redirect_uri", "http://www.carbostation.io/auth");
 
-        POST(URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
+        POST(NetatmoUtils.URL_OAUTH_REQUEST_TOKEN, params, successListener, errorListener);
     }
 
     /**
@@ -171,20 +134,8 @@ abstract public class NetatmoHttpClient {
      * @param errorListener
      */
     public void getDevicesList(Response.Listener<String> successListener, Response.ErrorListener errorListener){
-        get(URL_API_GET_DEVICES_LIST, new HashMap<String, String>(), successListener, errorListener);
+        get(NetatmoUtils.URL_API_GET_DEVICES_LIST, new HashMap<String, String>(), successListener, errorListener);
     }
-
-    /**
-     * Making sure to call {@link #storeTokens(String, String, long)} with proper values.
-     * @param response
-     */
-    public void processOAuthResponse(JSONObject response){
-        HashMap<String,String> parsedResponse = NetatmoUtils.parseOAuthResponse(response);
-        storeTokens(parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
-                parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT)));
-    }
-
 
     /**
      * You can get your client id by creating a Netatmo app first:

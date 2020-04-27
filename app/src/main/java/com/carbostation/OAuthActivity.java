@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.carbostation.netatmo_api.NetatmoUtils;
-import com.carbostation.netatmo_sample.SampleHttpClient;
+import com.carbostation.netatmo_sample.NetatmoHTTPClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +32,7 @@ public class OAuthActivity extends Activity {
     public static final String URI_QUERY_CODE   = "code";
 
     SharedPreferences _shared_preferences;
-    private SampleHttpClient http_client;
+    private NetatmoHTTPClient http_client;
     private String _state       = null;
     private String _uri         = null;
 
@@ -54,7 +54,7 @@ public class OAuthActivity extends Activity {
         /* Unique request state string */
         this._state = this._shared_preferences.getString("state_string", null);
 
-        http_client = SampleHttpClient.getInstance(this);
+        http_client = NetatmoHTTPClient.getInstance(this);
 
         /* If activity is created because of redirect URI, we handle the redirected URI.
            Else, we begin OAuth2 flow. */

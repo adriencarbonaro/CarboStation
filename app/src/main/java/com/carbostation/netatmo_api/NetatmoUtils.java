@@ -37,26 +37,36 @@ public class NetatmoUtils {
 
     public static final String TAG = "NetatmoUtils";
 
+    /* API URLs */
+    public static final String URL_BASE                    = "https://api.netatmo.net";
+    public static final String URL_OAUTH_REQUEST_TOKEN     = URL_BASE + "/oauth2/token";
+    public static final String URL_API_GET_DEVICES_LIST    = URL_BASE + "/api/devicelist";
+    public static final String URL_API_GET_PUBLIC_DATA     = URL_BASE + "/api/getpublicdata";
+    public static final String URL_API_GET_STATIONS_DATA   = URL_BASE + "/api/getstationsdata";
+
     /* API requests parameters */
-    public static final String KEY_ACCESS_TOKEN  = "access_token";
-    public static final String KEY_REFRESH_TOKEN = "refresh_token";
-    public static final String KEY_EXPIRES_IN    = "expires_in";
-    public static final String KEY_EXPIRES_AT    = "expires_at";
-    public static final String KEY_GRANT_TYPE    = "grant_type";
-    public static final String KEY_CLIENT_ID     = "client_id";
-    public static final String KEY_CLIENT_SECRET = "client_secret";
-    public static final String KEY_SCOPE         = "scope";
-    public static final String KEY_REDIRECT_URI  = "redirect_uri";
-    public static final String KEY_STATE         = "state";
-    public static final String KEY_CODE          = "code";
-    public static final String KEY_USERNAME      = "username";
-    public static final String KEY_PASSWORD      = "password";
-    public static final String KEY_DEVICE_ID     = "device_id";
+    public static final String KEY_ACCESS_TOKEN            = "access_token";
+    public static final String KEY_REFRESH_TOKEN           = "refresh_token";
+    public static final String KEY_EXPIRES_IN              = "expires_in";
+    public static final String KEY_EXPIRES_AT              = "expires_at";
+    public static final String KEY_GRANT_TYPE              = "grant_type";
+    public static final String KEY_CLIENT_ID               = "client_id";
+    public static final String KEY_CLIENT_SECRET           = "client_secret";
+    public static final String KEY_SCOPE                   = "scope";
+    public static final String KEY_REDIRECT_URI            = "redirect_uri";
+    public static final String KEY_STATE                   = "state";
+    public static final String KEY_CODE                    = "code";
+    public static final String KEY_USERNAME                = "username";
+    public static final String KEY_PASSWORD                = "password";
+    public static final String KEY_DEVICE_ID               = "device_id";
 
-    public static final String KEY_PARAM_TEMPERATURE = "temperature";
+    public static final String KEY_PARAM_TEMPERATURE       = "temperature";
 
-    public static final String KEY_BODY      = "body";
-    public static final String KEY_BODY_ID   = "_id";
+    /* API JSON response keys */
+    public static final String KEY_BODY                    = "body";
+    public static final String KEY_BODY_ID                 = "_id";
+    public static final String KEY_MODULE_INDOOR           = "NAMAin";
+    public static final String KEY_MODULE_OUTDOOR          = "NAModule1";
 
     public static HashMap<String, String> parseOAuthResponse(JSONObject response) {
         HashMap<String, String> parsedResponse = new HashMap<String, String>();

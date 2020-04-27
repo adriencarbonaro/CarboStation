@@ -14,7 +14,7 @@ import com.android.volley.Response;
 import com.carbostation.R;
 import com.carbostation.netatmo_api.model.Measures;
 import com.carbostation.netatmo_api.model.Params;
-import com.carbostation.netatmo_sample.SampleHttpClient;
+import com.carbostation.netatmo_sample.NetatmoHTTPClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +28,7 @@ import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 public class DashboardFragment extends Fragment {
 
     private String TAG="DashboardFragment";
-    private SampleHttpClient     http_client;
+    private NetatmoHTTPClient http_client;
     private Response.Listener<String> dashboard_public_response;
     private Response.Listener<String> dashboard_station_response;
 
@@ -44,7 +44,7 @@ public class DashboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.initDashboardListeners();
-        http_client = SampleHttpClient.getInstance(getContext());
+        http_client = NetatmoHTTPClient.getInstance(getContext());
     }
 
 

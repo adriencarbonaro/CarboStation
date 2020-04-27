@@ -10,7 +10,7 @@ import java.util.List;
 import com.android.volley.Response;
 import com.carbostation.R;
 
-import com.carbostation.netatmo_api.NetatmoHttpClient;
+import com.carbostation.netatmo_api.HTTPClient;
 import com.carbostation.netatmo_api.NetatmoUtils;
 import com.carbostation.netatmo_api.model.Station;
 
@@ -19,30 +19,30 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
- * This is just an example of how you can extend NetatmoHttpClient.
+ * This is just an example of how you can extend HTTPClient.
  * Tokens are stored in the shared preferences of the app, but you can store them as you wish
  * as long as they are properly returned by the getters.
  * If you want to add your own '/getmeasure' requests, this is also the place to do it.
  */
-public class SampleHttpClient extends NetatmoHttpClient {
+public class NetatmoHTTPClient extends HTTPClient {
 
-    private static final String TAG = "SampleHttpClient";
+    private static final String TAG = "NetatmoHTTPClient";
     Context context;
 
     SharedPreferences _shared_preferences;
     private JSONObject obj;
 
-    private static SampleHttpClient INSTANCE = null;
+    private static NetatmoHTTPClient INSTANCE = null;
 
-    private SampleHttpClient(Context context) {
+    private NetatmoHTTPClient(Context context) {
         super(context);
         this.context = context;
         _shared_preferences = PreferenceManager.getDefaultSharedPreferences(context);
     };
 
-    public static synchronized SampleHttpClient getInstance(Context context) {
+    public static synchronized NetatmoHTTPClient getInstance(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new SampleHttpClient(context);
+            INSTANCE = new NetatmoHTTPClient(context);
         }
         return(INSTANCE);
     }
@@ -87,24 +87,30 @@ public class SampleHttpClient extends NetatmoHttpClient {
         params.put("filter", "true");
 
         get(
-            URL_API_GET_PUBLIC_DATA,
+            NetatmoUtils.URL_API_GET_PUBLIC_DATA,
             params,
             null,
             null
         );
     }
 
-    public void getStationsData(String device_id, Response.Listener<String> listener) {
+    public void getStationsData(String device_id, final Response.Listener<String> listener) {
         HashMap<String,String> params = new HashMap<>();
         // Replace token by getAccessToken. This is for debug because of the null token error
         params.put(NetatmoUtils.KEY_ACCESS_TOKEN, _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN, null));
         params.put(NetatmoUtils.KEY_DEVICE_ID, device_id);
 
         get(
-            URL_API_GET_STATIONS_DATA,
-            params,
-            listener,
-            null
+                NetatmoUtils.URL_API_GET_STATIONS_DATA,
+                params,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "first I do whatever");
+                        listener.onResponse(response);
+                    }
+                },
+                null
         );
     }
 
