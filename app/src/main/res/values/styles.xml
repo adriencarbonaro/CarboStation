@@ -18,6 +18,10 @@
         <item name="android:statusBarColor">@color/color_logo_green</item>
     </style>
 
+    <style name="AppTheme.SwitchButton">
+        <item name="colorAccent">@color/color_logo_blue</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
