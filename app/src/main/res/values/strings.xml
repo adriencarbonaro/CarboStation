@@ -15,4 +15,7 @@
     <string name="dashboard_temp_in_title">In.</string>
     <string name="dashboard_temp_out_title">Out.</string>
     <string name="dashboard_temp_unit">°C</string>
+
+    <!-- Status view constants -->
+    <string name="app_version_key">App version</string>
 </resources>

@@ -4,13 +4,8 @@
     android:shape="rectangle"   >
 
     <solid
-        android:color="#888888" >
+        android:color="#FFFFFF" >
     </solid>
-
-    <stroke
-        android:width="2dp"
-        android:color="#C4CDE0" >
-    </stroke>
 
     <padding
         android:left="5dp"
