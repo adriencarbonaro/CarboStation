@@ -118,29 +118,39 @@ public class DashboardFragment extends Fragment {
 
                 try {
                     json_response = new JSONObject(response);
+
+                    String[] types = {
+                            Params.TYPE_TEMPERATURE,
+                            Params.TYPE_MIN_TEMP,
+                            Params.TYPE_MAX_TEMP,
+                            Params.TYPE_TEMP_TREND,
+                    };
+                    title = getStationName(json_response);
+                    last_update = getFormatedDate(
+                        Long.valueOf(getJSONString(json_response, NetatmoUtils.KEY_TIME_SERVER)) * 1000
+                    );
+
+                    HashMap<String, Measures> measures = parseMeasures(json_response, types);
+
+                    temp_in         = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getTemperature());
+                    temp_in_min     = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getMinTemp());
+                    temp_in_max     = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getMaxTemp());
+                    temp_out        = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getTemperature());
+                    temp_out_min    = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getMinTemp());
+                    temp_out_max    = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getMaxTemp());
+                    updateView(
+                        last_update,
+                        title,
+                        temp_in,
+                        temp_in_min,
+                        temp_in_max,
+                        temp_out,
+                        temp_out_min,
+                        temp_out_max,
+                    );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                String[] types = {
-                        Params.TYPE_TEMPERATURE,
-                        Params.TYPE_MIN_TEMP,
-                        Params.TYPE_MAX_TEMP,
-                };
-                title = getStationName(json_response);
-                last_update = getFormatedDate(
-                    Long.valueOf(getJSONString(json_response, NetatmoUtils.KEY_TIME_SERVER)) * 1000
-                );
-
-                HashMap<String, Measures> measures = parseMeasures(json_response, types);
-
-                temp_in      = String.valueOf(measures.get(getString(R.string.device_id)).getTemperature());
-                temp_in_min  = String.valueOf(measures.get(getString(R.string.device_id)).getMinTemp());
-                temp_in_max  = String.valueOf(measures.get(getString(R.string.device_id)).getMaxTemp());
-                temp_out     = String.valueOf(measures.get(getString(R.string.module_id)).getTemperature());
-                temp_out_min = String.valueOf(measures.get(getString(R.string.module_id)).getMinTemp());
-                temp_out_max = String.valueOf(measures.get(getString(R.string.module_id)).getMaxTemp());
-                updateView(last_update, title, temp_in, temp_in_min, temp_in_max, temp_out, temp_out_min, temp_out_max);
             }
         };
 

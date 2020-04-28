@@ -65,7 +65,7 @@ public class NetatmoUtils {
     /* API JSON response keys */
     public static final String KEY_BODY                    = "body";
     public static final String KEY_BODY_ID                 = "_id";
-    public static final String KEY_MODULE_INDOOR           = "NAMAin";
+    public static final String KEY_MODULE_INDOOR           = "NAMain";
     public static final String KEY_MODULE_OUTDOOR          = "NAModule1";
     public static final String KEY_TIME_SERVER             = "time_server";
 
@@ -156,9 +156,9 @@ public class NetatmoUtils {
                 Measures measures_device  = new Measures();
                 Measures measures_modules = new Measures();
                 JSONObject station = stations.getJSONObject(j);
-                String current_device_id  = station.getString("_id");
+                String current_device_id  = station.getString("type");
                 String current_modules_id = station.getJSONArray("modules")
-                        .getJSONObject(0).getString("_id");
+                        .getJSONObject(0).getString("type");
                 JSONObject deviceData = station.getJSONObject("dashboard_data");
                 JSONObject moduleData = station.getJSONArray("modules")
                         .getJSONObject(0).getJSONObject("dashboard_data");
