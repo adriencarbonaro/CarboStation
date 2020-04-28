@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
 import com.carbostation.R;
+import com.carbostation.netatmo_api.NetatmoUtils;
 import com.carbostation.netatmo_api.model.Measures;
 import com.carbostation.netatmo_api.model.Params;
 import com.carbostation.netatmo_sample.NetatmoHTTPClient;
@@ -21,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static com.carbostation.netatmo_api.NetatmoUtils.getFormatedDate;
+import static com.carbostation.netatmo_api.NetatmoUtils.getJSONString;
 import static com.carbostation.netatmo_api.NetatmoUtils.getStationName;
 import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 
@@ -33,6 +36,7 @@ public class DashboardFragment extends Fragment {
     private Response.Listener<String> dashboard_station_response;
 
     private TextView dashboard_title;
+    private TextView dashboard_last_update;
     private TextView dashboard_temp_in_value;
     private TextView dashboard_temp_in_min_value;
     private TextView dashboard_temp_in_max_value;
@@ -52,7 +56,8 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
 
-        dashboard_title = root.findViewById(R.id.dashboard_title);
+        dashboard_title              = root.findViewById(R.id.dashboard_title);
+        dashboard_last_update        = root.findViewById(R.id.dashboard_last_update_value);
         dashboard_temp_in_value      = root.findViewById(R.id.dashboard_temp_in_value_current);
         dashboard_temp_in_min_value  = root.findViewById(R.id.dashboard_temp_in_value_min);
         dashboard_temp_in_max_value  = root.findViewById(R.id.dashboard_temp_in_value_max);
@@ -69,11 +74,15 @@ public class DashboardFragment extends Fragment {
         http_client.getStationsData(getString(R.string.device_id), dashboard_station_response);
     }
 
-    public void updateView(String title, String temp_in, String temp_in_min, String temp_in_max,
+    public void updateView(String last_update, String title, String temp_in, String temp_in_min, String temp_in_max,
             String temp_out, String temp_out_min, String temp_out_max) {
         /* Title */
         if (title != null) { dashboard_title.setText(title); }
-        else { dashboard_title.setText(getString(R.string.dashboard_title)); }
+        else { dashboard_title.setText(getString(R.string.text_null)); }
+
+        /* Last update */
+        if (last_update != null) { dashboard_last_update.setText(last_update); }
+        else { dashboard_last_update.setText(getString(R.string.text_null)); }
 
         /* Temp in */
         if (temp_in != null) { dashboard_temp_in_value.setText(temp_in); }
@@ -98,6 +107,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 String title        = null;
+                String last_update  = null;
                 String temp_in      = null;
                 String temp_in_min  = null;
                 String temp_in_max  = null;
@@ -118,6 +128,9 @@ public class DashboardFragment extends Fragment {
                         Params.TYPE_MAX_TEMP,
                 };
                 title = getStationName(json_response);
+                last_update = getFormatedDate(
+                    Long.valueOf(getJSONString(json_response, NetatmoUtils.KEY_TIME_SERVER)) * 1000
+                );
 
                 HashMap<String, Measures> measures = parseMeasures(json_response, types);
 
@@ -127,7 +140,7 @@ public class DashboardFragment extends Fragment {
                 temp_out     = String.valueOf(measures.get(getString(R.string.module_id)).getTemperature());
                 temp_out_min = String.valueOf(measures.get(getString(R.string.module_id)).getMinTemp());
                 temp_out_max = String.valueOf(measures.get(getString(R.string.module_id)).getMaxTemp());
-                updateView(title, temp_in, temp_in_min, temp_in_max, temp_out, temp_out_min, temp_out_max);
+                updateView(last_update, title, temp_in, temp_in_min, temp_in_max, temp_out, temp_out_min, temp_out_max);
             }
         };
 
