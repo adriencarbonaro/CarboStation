@@ -1,19 +1,16 @@
 package com.carbostation.ui.status;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
@@ -21,13 +18,10 @@ import com.carbostation.R;
 import com.carbostation.BuildConfig;
 import com.carbostation.netatmo_api.NetatmoUtils;
 import com.carbostation.netatmo_sample.NetatmoHTTPClient;
-import com.carbostation.ui.dashboard.DashboardFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static com.carbostation.netatmo_api.NetatmoUtils.getJSONString;
 
 public class StatusFragment extends Fragment {
 

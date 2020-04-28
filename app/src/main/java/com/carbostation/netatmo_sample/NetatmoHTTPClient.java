@@ -26,6 +26,11 @@ import java.util.HashMap;
 public class NetatmoHTTPClient extends HTTPClient {
 
     private static final String TAG = "NetatmoHTTPClient";
+
+    private static final int REFRESH_RATE_MIN    = 2;
+    private static final int MIN_IN_SEC          = 60;
+    private static final int REFRESH_RATE_SEC    = REFRESH_RATE_MIN * MIN_IN_SEC;
+
     Context context;
 
     private SharedPreferences _shared_preferences;
@@ -150,7 +155,7 @@ public class NetatmoHTTPClient extends HTTPClient {
                         new JSONObject(_get_stations_last_response), NetatmoUtils.KEY_TIME_SERVER
                     )
                 );
-                return (System.currentTimeMillis() < ((timestamp + 5 * 60) * 1000));
+                return (System.currentTimeMillis() < ((timestamp + REFRESH_RATE_SEC) * 1000));
             } catch (JSONException e) {
                 e.printStackTrace();
                 return false;
