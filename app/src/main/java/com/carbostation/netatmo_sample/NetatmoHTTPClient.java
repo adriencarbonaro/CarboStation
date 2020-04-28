@@ -5,15 +5,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.util.List;
 
 import com.android.volley.Response;
 import com.carbostation.R;
 
 import com.carbostation.netatmo_api.HTTPClient;
 import com.carbostation.netatmo_api.NetatmoUtils;
-import com.carbostation.netatmo_api.model.Station;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,13 +31,16 @@ public class NetatmoHTTPClient extends HTTPClient {
     private SharedPreferences _shared_preferences;
     private JSONObject obj;
 
+    private String _get_stations_last_response = null;
+    private String _tokens_last_response       = null;
+
     private static NetatmoHTTPClient INSTANCE = null;
 
     private NetatmoHTTPClient(Context context) {
         super(context);
         this.context = context;
         _shared_preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    };
+    }
 
     public static synchronized NetatmoHTTPClient getInstance(Context context) {
         if (INSTANCE == null) {
@@ -47,31 +49,45 @@ public class NetatmoHTTPClient extends HTTPClient {
         return(INSTANCE);
     }
 
-    public void refreshToken(String refresh_token, Response.Listener<String> listener) {
-        refreshToken(refresh_token, listener, null);
+    /**
+     * Once an access token has been obtained, it can be used immediately to access the REST API.
+     * After a certain amount of time, the access token expires
+     * and the application needs to use the refresh token to renew the access token.
+     * Both the refresh token and the expiration time are obtained during the authentication phase.
+     *
+     * @param refresh_token   The token used to refresh the API access token.
+     * @param listener        The response listener.
+     */
+    public void refreshToken(String refresh_token, final Response.Listener<String> listener) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("grant_type", "refresh_token");
+        params.put("refresh_token", refresh_token);
+        params.put("client_id", getClientId());
+        params.put("client_secret", getClientSecret());
+
+        POST(
+            NetatmoUtils.URL_OAUTH_REQUEST_TOKEN,
+            params,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    _tokens_last_response = response;
+                    listener.onResponse(response);
+                }
+            },
+            null);
     }
 
     public void requestAccessToken(String code, Response.Listener<String> listener) {
-        requestAccessToken(code, listener, null);
-    }
-    /**
-     * processOAuthResponse.
-     * @param response
-     */
-    public void processOAuthResponse(JSONObject response){
-        HashMap<String,String> parsedResponse = NetatmoUtils.parseOAuthResponse(response);
-        storeTokens(
-                parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
-                parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT))
-        );
-    }
+        HashMap<String, String> params = new HashMap<>();
+        params.put("grant_type", "authorization_code");
+        params.put("client_id", getClientId());
+        params.put("client_secret", getClientSecret());
+        params.put("code", code);
+        params.put("scope", getAppScope());
+        params.put("redirect_uri", "http://www.carbostation.io/auth");
 
-    public void processGetStationsDataResponse(JSONObject response){
-        List<Station> parsedDevicesList = NetatmoUtils.parseDevicesList(response);
-        SharedPreferences.Editor editor = _shared_preferences.edit();
-        editor.putString("STATION_NAME", parsedDevicesList.get(0).getName());
-        editor.apply();
+        POST(NetatmoUtils.URL_OAUTH_REQUEST_TOKEN, params, listener, null);
     }
 
     //-- Netatmo API response listeners --------------------------------------
@@ -86,7 +102,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         params.put("required_data", required_data);
         params.put("filter", "true");
 
-        get(
+        GET(
             NetatmoUtils.URL_API_GET_PUBLIC_DATA,
             params,
             null,
@@ -95,63 +111,83 @@ public class NetatmoHTTPClient extends HTTPClient {
     }
 
     public void getStationsData(String device_id, final Response.Listener<String> listener) {
-        HashMap<String,String> params = new HashMap<>();
-        // Replace token by getAccessToken. This is for debug because of the null token error
-        params.put(NetatmoUtils.KEY_ACCESS_TOKEN, _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN, null));
-        params.put(NetatmoUtils.KEY_DEVICE_ID, device_id);
+        if (checkLastGetStationsReponse()) {
+            listener.onResponse(_get_stations_last_response);
+        } else {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(NetatmoUtils.KEY_ACCESS_TOKEN, _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN, null));
+            params.put(NetatmoUtils.KEY_DEVICE_ID, device_id);
 
-        get(
+            GET(
                 NetatmoUtils.URL_API_GET_STATIONS_DATA,
                 params,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "first I do whatever");
+                        Log.i("HTTP", "<--          " + response);
+                        _get_stations_last_response = response;
                         listener.onResponse(response);
                     }
                 },
                 null
-        );
+            );
+        }
+    }
+
+    /**
+     * Function that checks last response.
+     *
+     * @return true   if last reponse exists and has been stored in the last 5 min.
+     *         false  otherwise.
+     */
+    private boolean checkLastGetStationsReponse() {
+        if (_get_stations_last_response == null) {
+            return false;
+        } else {
+            try {
+                Long timestamp = Long.valueOf(
+                    NetatmoUtils.getJSONString(
+                        new JSONObject(_get_stations_last_response), NetatmoUtils.KEY_TIME_SERVER
+                    )
+                );
+                return (System.currentTimeMillis() < ((timestamp + 5 * 60) * 1000));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
     }
 
     //-- Netatmo API credentials information ---------------------------------
-    @Override
-    protected String getClientId() { return context.getString(R.string.client_id); }
+    private String getClientId() { return context.getString(R.string.client_id); }
 
-    @Override
-    protected String getClientSecret() { return context.getString(R.string.client_secret); }
+    private String getClientSecret() { return context.getString(R.string.client_secret); }
 
-    @Override
-    protected String getAppScope() { return context.getString(R.string.app_scope); }
+    private String getAppScope() { return context.getString(R.string.app_scope); }
 
-    @Override
-    protected void storeTokens(String refreshToken, String accessToken, long expiresAt) {
+    protected void storeTokens(String refresh_token, String access_token, long expiresAt) {
         SharedPreferences.Editor editor = _shared_preferences.edit();
-        editor.putString(NetatmoUtils.KEY_REFRESH_TOKEN, refreshToken);
-        editor.putString(NetatmoUtils.KEY_ACCESS_TOKEN, accessToken);
+        editor.putString(NetatmoUtils.KEY_REFRESH_TOKEN, refresh_token);
+        editor.putString(NetatmoUtils.KEY_ACCESS_TOKEN, access_token);
         editor.putLong(NetatmoUtils.KEY_EXPIRES_AT, expiresAt);
         editor.apply();
     }
 
-    @Override
-    protected void clearTokens() {
+    private void clearTokens() {
         SharedPreferences.Editor editor = _shared_preferences.edit();
         editor.clear();
         editor.apply();
     }
 
-    @Override
-    protected String getRefreshToken() {
+    private String getRefreshToken() {
         return _shared_preferences.getString(NetatmoUtils.KEY_REFRESH_TOKEN, null);
     }
 
-    @Override
-    protected String getAccessToken() {
+    private String getAccessToken() {
         return _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN,null);
     }
 
-    @Override
-    protected long getExpiresAt() {
+    private long getExpiresAt() {
         return _shared_preferences.getLong(NetatmoUtils.KEY_EXPIRES_AT,0);
     }
 }

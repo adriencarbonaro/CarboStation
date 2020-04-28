@@ -97,7 +97,6 @@ public class DashboardFragment extends Fragment {
         dashboard_station_response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("HTTP", "<--          " + response);
                 String title        = null;
                 String temp_in      = null;
                 String temp_in_min  = null;
