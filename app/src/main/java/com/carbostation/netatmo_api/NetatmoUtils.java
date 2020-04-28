@@ -62,6 +62,10 @@ public class NetatmoUtils {
 
     public static final String KEY_PARAM_TEMPERATURE       = "temperature";
 
+    public static final String TEMP_TREND_STABLE           = "stable";
+    public static final String TEMP_TREND_UP               = "up";
+    public static final String TEMP_TREND_DOWN             = "down";
+
     /* API JSON response keys */
     public static final String KEY_BODY                    = "body";
     public static final String KEY_BODY_ID                 = "_id";
@@ -193,6 +197,10 @@ public class NetatmoUtils {
                         case Params.TYPE_MAX_TEMP:
                             measures_device.setMaxTemp(getJSONString(deviceData, types[i]));
                             measures_modules.setMaxTemp(getJSONString(moduleData, types[i]));
+                            break;
+                        case Params.TYPE_TEMP_TREND:
+                            measures_device.setTempTrend(getJSONString(deviceData, types[i]));
+                            measures_modules.setTempTrend(getJSONString(moduleData, types[i]));
                             break;
                         default:
                     }

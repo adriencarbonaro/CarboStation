@@ -40,4 +40,5 @@ public class Params {
     public static final String TYPE_WIND_STRENGTH = "WindStrength";
     public static final String TYPE_GUST_ANGLE = "GustAngle";
     public static final String TYPE_GUST_STRENGTH = "GustStrength";
+    public static final String TYPE_TEMP_TREND = "temp_trend";
 }

@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -43,6 +45,8 @@ public class DashboardFragment extends Fragment {
     private TextView dashboard_temp_out_value;
     private TextView dashboard_temp_out_min_value;
     private TextView dashboard_temp_out_max_value;
+    private ImageView dashboard_temp_in_trend;
+    private ImageView dashboard_temp_out_trend;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class DashboardFragment extends Fragment {
         dashboard_temp_out_value     = root.findViewById(R.id.dashboard_temp_out_value_current);
         dashboard_temp_out_min_value = root.findViewById(R.id.dashboard_temp_out_value_min);
         dashboard_temp_out_max_value = root.findViewById(R.id.dashboard_temp_out_value_max);
+        dashboard_temp_in_trend      = root.findViewById(R.id.dashboard_temp_in_trend_icon);
+        dashboard_temp_out_trend     = root.findViewById(R.id.dashboard_temp_out_trend_icon);
 
         return root;
     }
@@ -74,8 +80,9 @@ public class DashboardFragment extends Fragment {
         http_client.getStationsData(getString(R.string.device_id), dashboard_station_response);
     }
 
-    public void updateView(String last_update, String title, String temp_in, String temp_in_min, String temp_in_max,
-            String temp_out, String temp_out_min, String temp_out_max) {
+    public void updateView(String last_update,
+            String title, String temp_in, String temp_in_min, String temp_in_max, String temp_in_trend,
+            String temp_out, String temp_out_min, String temp_out_max, String temp_out_trend) {
         /* Title */
         if (title != null) { dashboard_title.setText(title); }
         else { dashboard_title.setText(getString(R.string.text_null)); }
@@ -91,6 +98,19 @@ public class DashboardFragment extends Fragment {
         else { dashboard_temp_in_min_value.setText(R.string.text_null); }
         if (temp_in_max != null) { dashboard_temp_in_max_value.setText(temp_in_max); }
         else { dashboard_temp_in_max_value.setText(R.string.text_null); }
+        if (temp_in_trend != null) {
+            switch (temp_in_trend) {
+                case NetatmoUtils.TEMP_TREND_STABLE:
+                    dashboard_temp_in_trend.setImageResource(R.drawable.ic_temp_trend_stable);
+                    break;
+                case NetatmoUtils.TEMP_TREND_UP:
+                    dashboard_temp_in_trend.setImageResource(R.drawable.ic_temp_trend_up);
+                    break;
+                case NetatmoUtils.TEMP_TREND_DOWN:
+                    dashboard_temp_in_trend.setImageResource(R.drawable.ic_temp_trend_down);
+                    break;
+            }
+        }
 
         /* Temp out */
         if (temp_out != null) { dashboard_temp_out_value.setText(temp_out); }
@@ -99,6 +119,19 @@ public class DashboardFragment extends Fragment {
         else { dashboard_temp_out_min_value.setText(R.string.text_null); }
         if (temp_out_max != null) { dashboard_temp_out_max_value.setText(temp_out_max); }
         else { dashboard_temp_out_max_value.setText(R.string.text_null); }
+        if (temp_out_trend != null) {
+            switch (temp_out_trend) {
+                case NetatmoUtils.TEMP_TREND_STABLE:
+                    dashboard_temp_out_trend.setImageResource(R.drawable.ic_temp_trend_stable);
+                    break;
+                case NetatmoUtils.TEMP_TREND_UP:
+                    dashboard_temp_out_trend.setImageResource(R.drawable.ic_temp_trend_up);
+                    break;
+                case NetatmoUtils.TEMP_TREND_DOWN:
+                    dashboard_temp_out_trend.setImageResource(R.drawable.ic_temp_trend_down);
+                    break;
+            }
+        }
     }
 
     public void initDashboardListeners() {
@@ -106,14 +139,16 @@ public class DashboardFragment extends Fragment {
         dashboard_station_response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                String title        = null;
-                String last_update  = null;
-                String temp_in      = null;
-                String temp_in_min  = null;
-                String temp_in_max  = null;
-                String temp_out     = null;
-                String temp_out_min = null;
-                String temp_out_max = null;
+                String title;
+                String last_update;
+                String temp_in;
+                String temp_in_min;
+                String temp_in_max;
+                String temp_out;
+                String temp_out_min;
+                String temp_out_max;
+                String temp_in_trend;
+                String temp_out_trend;
                 JSONObject json_response = null;
 
                 try {
@@ -135,18 +170,23 @@ public class DashboardFragment extends Fragment {
                     temp_in         = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getTemperature());
                     temp_in_min     = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getMinTemp());
                     temp_in_max     = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getMaxTemp());
+                    temp_in_trend   = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_INDOOR).getTempTrend());
                     temp_out        = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getTemperature());
                     temp_out_min    = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getMinTemp());
                     temp_out_max    = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getMaxTemp());
+                    temp_out_trend  = String.valueOf(measures.get(NetatmoUtils.KEY_MODULE_OUTDOOR).getTempTrend());
+
                     updateView(
                         last_update,
                         title,
                         temp_in,
                         temp_in_min,
                         temp_in_max,
+                        temp_in_trend,
                         temp_out,
                         temp_out_min,
                         temp_out_max,
+                        temp_out_trend
                     );
                 } catch (JSONException e) {
                     e.printStackTrace();

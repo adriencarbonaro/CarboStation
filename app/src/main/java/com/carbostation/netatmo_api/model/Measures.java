@@ -33,6 +33,7 @@ public class Measures {
     String windStrength;
     String gustAngle;
     String gustStrength;
+    String temp_trend;
 
     public Measures() {
         beginTime = 0;
@@ -48,6 +49,7 @@ public class Measures {
         windStrength = STRING_NO_DATA;
         gustAngle = STRING_NO_DATA;
         gustStrength = STRING_NO_DATA;
+        temp_trend = STRING_NO_DATA;
 
     }
 
@@ -114,6 +116,12 @@ public class Measures {
     public void setMaxTemp(String maxTemp) {
         this.maxTemp = maxTemp;
     }
+
+    public void setTempTrend(String temp_trend) {
+        this.temp_trend = temp_trend;
+    }
+
+    public String getTempTrend() { return temp_trend; }
 
     public String getSum_rain_24(){ return sum_rain_24;}
 
