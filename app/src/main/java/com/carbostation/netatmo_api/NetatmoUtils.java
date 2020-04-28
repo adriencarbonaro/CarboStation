@@ -72,6 +72,7 @@ public class NetatmoUtils {
     public static final String KEY_MODULE_INDOOR           = "NAMain";
     public static final String KEY_MODULE_OUTDOOR          = "NAModule1";
     public static final String KEY_TIME_SERVER             = "time_server";
+    public static final String KEY_BATTERY_STATUS          = "battery_percent";
 
     public static HashMap<String, String> parseOAuthResponse(JSONObject response) {
         HashMap<String, String> parsedResponse = new HashMap<String, String>();

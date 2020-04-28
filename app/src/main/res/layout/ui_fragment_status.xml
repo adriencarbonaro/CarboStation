@@ -17,18 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- App Version -->
         <TextView
             android:id="@+id/status_version_key"
-            android:layout_width="wrap_content"
+            android:layout_width="111dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/comfortaa_light"
             android:text="@string/app_version_key"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/status_version"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,23 +51,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/status_version_key" />
 
+        <!-- Switch test -->
         <TextView
-            android:id="@+id/status_version_key2"
+            android:id="@+id/switch_test_key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/comfortaa_light"
             android:text="Switch test"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/status_version2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintBottom_toTopOf="@+id/switch_test_desc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/status_version" />
 
         <TextView
-            android:id="@+id/status_version2"
+            android:id="@+id/switch_test_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -83,19 +83,66 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/status_version_key2" />
+            app:layout_constraintTop_toBottomOf="@+id/switch_test_key" />
 
         <Switch
-            android:id="@+id/switch1"
-            android:theme="@style/AppTheme.SwitchButton"
-            android:layout_width="50dp"
+            android:id="@+id/switch_test_value"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/status_version2"
+            android:theme="@style/AppTheme.SwitchButton"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_test_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/switch_test_desc"
+            tools:checked="false" />
+
+        <!-- Switch test -->
+        <TextView
+            android:id="@+id/module_out_battery_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="Ext. module battery"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/module_out_battery_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_test_desc" />
+
+        <TextView
+            android:id="@+id/module_out_battery_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rounded_rectangle"
+            android:fontFamily="monospace"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            android:text="status :"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/module_out_battery_key" />
+
+        <ImageView
+            android:id="@+id/status_battery_value"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:rotation="-90"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/status_version2"
-            tools:checked="false" />
+            app:layout_constraintTop_toTopOf="@+id/module_out_battery_desc"
+            app:srcCompat="@drawable/ic_battery_null" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
