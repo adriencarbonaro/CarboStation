@@ -132,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/module_out_battery_key" />
 
         <ImageView
-            android:id="@+id/status_battery_value"
+            android:id="@+id/status_battery_value_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:rotation="-90"
@@ -142,6 +142,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/module_out_battery_desc"
             app:srcCompat="@drawable/ic_battery_null" />
+
+        <TextView
+            android:id="@+id/status_battery_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/text_null"
+            app:layout_constraintBottom_toBottomOf="@+id/module_out_battery_desc"
+            app:layout_constraintEnd_toStartOf="@+id/status_battery_value_icon"
+            app:layout_constraintTop_toTopOf="@+id/module_out_battery_desc" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,4 +19,5 @@
 
     <!-- Status view constants -->
     <string name="app_version_key">App version</string>
+    <string name="battery_status">%1d %%</string>
 </resources>

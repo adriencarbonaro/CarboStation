@@ -29,7 +29,8 @@ public class StatusFragment extends Fragment {
 
     private TextView status_version          = null;
     private Switch switch_test               = null;
-    private ImageView battery_status         = null;
+    private ImageView battery_status_icon    = null;
+    private TextView  battery_status         = null;
     private NetatmoHTTPClient http_client    = null;
     private Response.Listener<String> status_station_response;
 
@@ -46,7 +47,8 @@ public class StatusFragment extends Fragment {
         status_version = root.findViewById(R.id.status_version);
         switch_test = root.findViewById(R.id.switch_test_value);
         switch_test.setOnCheckedChangeListener(onSwitchClickHandler);
-        battery_status = root.findViewById(R.id.status_battery_value);
+        battery_status_icon = root.findViewById(R.id.status_battery_value_icon);
+        battery_status      = root.findViewById(R.id.status_battery_value);
         return root;
     }
 
@@ -95,7 +97,8 @@ public class StatusFragment extends Fragment {
                     if (battery_value > 60) { battery_drawable_id = R.drawable.ic_battery_80; }
                     if (battery_value > 80) { battery_drawable_id = R.drawable.ic_battery_full; }
 
-                    battery_status.setImageResource(battery_drawable_id);
+                    battery_status_icon.setImageResource(battery_drawable_id);
+                    battery_status.setText(getString(R.string.battery_status, battery_value));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
