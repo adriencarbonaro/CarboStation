@@ -1,6 +1,6 @@
 <resources>
     <!-- App constants -->
-    <string name="app_name">CarboStation</string>
+    <string name="app_name">homeLab</string>
 
     <!-- Views -->
     <string name="title_home">Home</string>

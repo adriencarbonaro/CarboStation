@@ -5,6 +5,13 @@
     <color name="color_logo_blue">#185A9D</color>
     <color name="color_logo_interm">#2E94A0</color>
     <color name="color_logo_green">#43CEA2</color>
+
+    <!-- App logo -->
+    <color name="color_logo_pink">#F5ADBC</color>
+    <color name="color_logo_orange">#FAC2A1</color>
+    <color name="color_logo_orange_dark">#D19069</color>
+    <color name="color_logo_grey">#666666</color>
+
     <color name="color_red">#E56464</color>
     <color name="color_blue">#61AFEF</color>
     <color name="color_green">#98C379</color>

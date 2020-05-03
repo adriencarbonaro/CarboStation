@@ -14,7 +14,7 @@
         android:contentDescription="TODO"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:src="@drawable/logo_app_f"
+        android:src="@drawable/ic_homelab_h_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
