@@ -20,6 +20,13 @@
         <item name="android:statusBarColor">@color/color_logo_orange</item>
     </style>
 
+    <!-- Buttons -->
+    <style name="AppTheme.ButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/color_green</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/color_green</item>
     </style>
 
     <style name="AppTheme.SwitchButton">
