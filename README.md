@@ -1,3 +1,5 @@
+![homeLab_logo](app_logo.png)
+
 # Description
 
 This android app uses **Netatmo API** to retrieve data from personal Weather Station.
