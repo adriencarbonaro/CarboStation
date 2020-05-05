@@ -1,5 +1,6 @@
 package com.carbostation.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 import com.carbostation.R;
@@ -21,7 +23,11 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_home, container, false);
+        /* Apply theme from styles.xml to fragments is done here rather than in Manifest */
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.homeLabTheme_HomeFragment);
+        LayoutInflater local_inflater = inflater.cloneInContext(contextThemeWrapper);
+
+        View root = local_inflater.inflate(R.layout.ui_fragment_home, container, false);
         home_logo = root.findViewById(R.id.home_logo);
         button_cancel = root.findViewById(R.id.b1);
         button_ok = root.findViewById(R.id.b2);

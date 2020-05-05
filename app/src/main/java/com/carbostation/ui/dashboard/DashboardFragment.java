@@ -1,5 +1,6 @@
 package com.carbostation.ui.dashboard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
@@ -58,7 +60,11 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
+        /* Apply theme from styles.xml to fragments is done here rather than in Manifest */
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.homeLabTheme_DashboardFragment);
+        LayoutInflater local_inflater = inflater.cloneInContext(contextThemeWrapper);
+
+        View root = local_inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
 
         dashboard_title              = root.findViewById(R.id.dashboard_title);
         dashboard_last_update        = root.findViewById(R.id.dashboard_last_update_value);

@@ -1,5 +1,6 @@
 package com.carbostation.ui.status;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
@@ -43,7 +45,12 @@ public class StatusFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_status, container, false);
+        /* Apply theme from styles.xml to fragments is done here rather than in Manifest */
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.homeLabTheme_StatusFragment);
+        LayoutInflater local_inflater = inflater.cloneInContext(contextThemeWrapper);
+
+        View root = local_inflater.inflate(R.layout.ui_fragment_status, container, false);
+
         status_version = root.findViewById(R.id.status_version);
         switch_test = root.findViewById(R.id.switch_test_value);
         switch_test.setOnCheckedChangeListener(onSwitchClickHandler);

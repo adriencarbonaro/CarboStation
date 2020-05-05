@@ -15,6 +15,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Home Fragment -->
+    <style name="homeLabTheme.HomeFragment">
+    </style>
+
+    <!-- Dashboard Fragment -->
+    <style name="homeLabTheme.DashboardFragment">
+        <item name="color_temp_in">@color/color_surface_light</item>
+        <item name="color_temp_out">@color/color_surface_alt_light</item>
+    </style>
+
+    <!-- Status Fragment -->
+    <style name="homeLabTheme.StatusFragment">
+        <item name="color_background_alt">@color/color_background_alt_light</item>
+    </style>
+
     <!-- Splash screen -->
     <style name="homeLabTheme.SplashScreen">
         <item name="android:statusBarColor">@color/color_logo_orange</item>
