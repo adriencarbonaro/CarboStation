@@ -27,6 +27,12 @@ public class NetatmoHTTPClient extends HTTPClient {
 
     private static final String TAG = "NetatmoHTTPClient";
 
+    private static final String REQ_TAG             = "NetatmoAPI";
+    private static final String REQ_REFRESH         = "[REFRESH]";
+    private static final String REQ_AUTHORIZATION   = "[AUTHORIZATION]";
+    private static final String REQ_PUBLIC_DATA     = "[GET_PUBLIC_DATA]";
+    private static final String REQ_STATION_DATA    = "[GET_STATION_DATA]";
+
     private static final int REFRESH_RATE_MIN    = 2;
     private static final int MIN_IN_SEC          = 60;
     private static final int REFRESH_RATE_SEC    = REFRESH_RATE_MIN * MIN_IN_SEC;
@@ -70,6 +76,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         params.put("client_id", getClientId());
         params.put("client_secret", getClientSecret());
 
+        Log.i(REQ_TAG, REQ_REFRESH);
         POST(
             NetatmoUtils.URL_OAUTH_REQUEST_TOKEN,
             params,
@@ -92,6 +99,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         params.put("scope", getAppScope());
         params.put("redirect_uri", "http://www.carbostation.io/auth");
 
+        Log.i(REQ_TAG, REQ_AUTHORIZATION);
         POST(NetatmoUtils.URL_OAUTH_REQUEST_TOKEN, params, listener, null);
     }
 
@@ -107,6 +115,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         params.put("required_data", required_data);
         params.put("filter", "true");
 
+        Log.i(REQ_TAG, REQ_PUBLIC_DATA);
         GET(
             NetatmoUtils.URL_API_GET_PUBLIC_DATA,
             params,
