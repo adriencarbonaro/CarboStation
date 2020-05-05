@@ -25,6 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
+
 public class StatusFragment extends Fragment {
 
     public static final String TAG = "StatusFragment";
@@ -74,8 +78,8 @@ public class StatusFragment extends Fragment {
             new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (b) Toast.makeText(getContext(), "YES", Toast.LENGTH_LONG).show();
-            else   Toast.makeText(getContext(), "NO", Toast.LENGTH_LONG).show();
+            if (b) { setDefaultNightMode(MODE_NIGHT_YES); }
+            else { setDefaultNightMode(MODE_NIGHT_NO); }
         }
     };
 

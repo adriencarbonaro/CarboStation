@@ -1,30 +1,30 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="homeLabTheme" parent="Theme.MaterialComponents.Light">
+    <style name="homeLabTheme" parent="Theme.MaterialComponents">
         <!-- Logo colors -->
-        <item name="color_logo_text">@color/color_logo_text_light</item>
+        <item name="color_logo_text">@color/color_logo_text_dark</item>
         <item name="color_logo_pink">@color/color_logo_pink</item>
         <item name="color_logo_orange">@color/color_logo_orange</item>
         <!-- Background colors -->
-        <item name="color_background">@color/color_background_light</item>
-        <item name="color_background_alt">@color/color_background_alt_light</item>
-        <item name="color_surface">@color/color_surface_light</item>
-        <item name="color_surface_alt">@color/color_surface_alt_light</item>
-        <item name="color_rounded_rectangle">@color/color_rounded_rectangle_light</item>
+        <item name="color_background">@color/color_background_dark</item>
+        <item name="color_background_alt">@color/color_background_alt_dark</item>
+        <item name="color_surface">@color/color_surface_dark</item>
+        <item name="color_surface_alt">@color/color_surface_alt_dark</item>
+        <item name="color_rounded_rectangle">@color/color_rounded_rectangle_dark</item>
         <!-- Standard colors -->
-        <item name="color_red">@color/color_red_light</item>
-        <item name="color_green">@color/color_green_light</item>
-        <item name="color_blue">@color/color_blue_light</item>
+        <item name="color_red">@color/color_red_dark</item>
+        <item name="color_green">@color/color_green_dark</item>
+        <item name="color_blue">@color/color_blue_dark</item>
         <!-- Other colors -->
         <item name="colorPrimary">@color/color_logo_orange</item>
         <item name="colorPrimaryDark">@color/color_logo_orange</item>
-        <item name="colorAccent">@color/color_red_light</item>
-        <item name="color_text">@color/color_dark_grey</item>
+        <item name="colorAccent">@color/color_red_dark</item>
+        <item name="color_text">@color/color_nearly_white</item>
         <item name="color_text_alt">@color/color_grey</item>
         <!-- Status bar colors -->
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@color/color_status_bar_light</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/color_status_bar_dark</item>
     </style>
 
     <!-- No action bar -->
@@ -45,6 +45,7 @@
 
     <!-- Status Fragment -->
     <style name="homeLabTheme.StatusFragment">
+        <item name="color_background_alt">?attr/color_background</item>
     </style>
 
     <!-- Splash screen -->
@@ -56,7 +57,6 @@
     <!-- Buttons -->
     <style name="homeLabTheme.ButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">?attr/color_green</item>
-        <item name="android:iconTint">?attr/color_green</item>
     </style>
 
     <style name="homeLabTheme.Button" parent="Widget.MaterialComponents.Button">
