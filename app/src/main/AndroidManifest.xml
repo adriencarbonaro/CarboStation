@@ -10,14 +10,14 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_homelab_s_color"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/homeLabTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.SplashScreen">
+            android:theme="@style/homeLabTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

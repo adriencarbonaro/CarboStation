@@ -37,7 +37,7 @@
 
         <Button
             android:id="@+id/b1"
-            style="@style/AppTheme.ButtonOutlined"
+            style="@style/homeLabTheme.ButtonOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -50,7 +50,7 @@
 
         <Button
             android:id="@+id/b2"
-            style="@style/AppTheme.Button"
+            style="@style/homeLabTheme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

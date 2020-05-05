@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="homeLabTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_logo_orange</item>
         <item name="colorPrimaryDark">@color/color_logo_orange</item>
         <item name="colorAccent">@color/color_red</item>
@@ -10,37 +10,37 @@
     </style>
 
     <!-- No action bar -->
-    <style name="AppTheme.NoActionBar">
+    <style name="homeLabTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Splash screen -->
-    <style name="AppTheme.SplashScreen">
+    <style name="homeLabTheme.SplashScreen">
         <item name="android:statusBarColor">@color/color_logo_orange</item>
     </style>
 
     <!-- Buttons -->
-    <style name="AppTheme.ButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="homeLabTheme.ButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">@color/color_green</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+    <style name="homeLabTheme.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/color_green</item>
     </style>
 
-    <style name="AppTheme.SwitchButton">
+    <style name="homeLabTheme.SwitchButton">
         <item name="colorAccent">@color/color_green</item>
     </style>
 
     <!-- BottomNavigationView -->
-    <style name="AppTheme.BottomNavigationView">
+    <style name="homeLabTheme.BottomNavigationView">
         <item name="colorPrimary">@color/color_green</item>
         <item name="colorOnPrimary">@color/color_green</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="homeLabTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="homeLabTheme..PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
