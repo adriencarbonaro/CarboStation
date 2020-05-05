@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_ConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/color_background_alt">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dashboard_title_layout"
@@ -72,7 +73,7 @@
 
         <Button
             android:id="@+id/button_refresh"
-            style="@style/homeLabTheme.ButtonOutlined"
+            style="@style/homeLabTheme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -89,7 +90,9 @@
         android:id="@+id/dashboard_temp_in_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/color_temp_in"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_rectangle"
         app:layout_constraintBottom_toTopOf="@+id/dashboard_temp_out_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -254,7 +257,11 @@
         android:id="@+id/dashboard_temp_out_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/color_temp_out"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

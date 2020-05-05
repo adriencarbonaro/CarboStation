@@ -29,7 +29,7 @@
     <color name="color_status_bar_dark">#414141</color>
 
     <color name="color_background_light">#FFFFFF</color>
-    <color name="color_background_alt_light">#F5F5F5</color>
+    <color name="color_background_alt_light">#F2F2F2</color>
 
     <color name="color_background_dark">#414141</color>
     <color name="color_background_alt_dark">#373737</color>
