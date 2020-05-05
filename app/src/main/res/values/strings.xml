@@ -10,6 +10,8 @@
     <!-- Constants -->
     <string name="text_null">--</string>
     <string name="last_update">last update : </string>
+    <string name="button_refresh">Refresh</string>
+    <string name="button_refresh_text">Refreshing</string>
 
     <!-- Dashboard view constants -->
     <string name="dashboard_title">Temperature</string>
@@ -20,4 +22,7 @@
     <!-- Status view constants -->
     <string name="app_version_key">App version</string>
     <string name="battery_status">%1d %%</string>
+
+    <!-- -->
+    <string name="unicode_ellipsis">\u2026</string>
 </resources>

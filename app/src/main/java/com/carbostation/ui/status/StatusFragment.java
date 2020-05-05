@@ -66,7 +66,7 @@ public class StatusFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        http_client.getStationsData(getString(R.string.device_id), status_station_response);
+        http_client.getStationsData(getString(R.string.device_id), status_station_response, false);
         updateView(BuildConfig.VERSION_NAME);
     }
 

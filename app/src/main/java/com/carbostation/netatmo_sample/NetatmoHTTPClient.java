@@ -124,8 +124,17 @@ public class NetatmoHTTPClient extends HTTPClient {
         );
     }
 
-    public void getStationsData(String device_id, final Response.Listener<String> listener) {
-        if (checkLastGetStationsReponse()) {
+    /**
+     * Send Netatmo API a GET request to retrieve stations data.
+     * Check the last request time. If it is less than a specified time,
+     * simply return the last response.
+     *
+     * @param device_id      The weather station MAC address.
+     * @param listener       The response listener.
+     * @param bypass_timer   A flag that bypasses the timing check before sending request.
+     */
+    public void getStationsData(String device_id, final Response.Listener<String> listener, boolean bypass_timer) {
+        if (checkLastGetStationsReponse() && !bypass_timer) {
             listener.onResponse(_get_stations_last_response);
         } else {
             HashMap<String, String> params = new HashMap<>();
@@ -151,7 +160,7 @@ public class NetatmoHTTPClient extends HTTPClient {
     /**
      * Function that checks last response.
      *
-     * @return true   if last reponse exists and has been stored in the last 5 min.
+     * @return true   if last reponse exists and has been stored in the last REFRESH_RATE_SEC min.
      *         false  otherwise.
      */
     private boolean checkLastGetStationsReponse() {

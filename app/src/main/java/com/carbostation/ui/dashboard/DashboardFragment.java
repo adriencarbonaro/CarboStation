@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -35,6 +37,9 @@ import static com.carbostation.netatmo_api.NetatmoUtils.parseMeasures;
 public class DashboardFragment extends Fragment {
 
     private String TAG="DashboardFragment";
+
+    private Button button_refresh    = null;
+
     private NetatmoHTTPClient http_client;
     private Response.Listener<String> dashboard_public_response;
     private Response.Listener<String> dashboard_station_response;
@@ -66,6 +71,10 @@ public class DashboardFragment extends Fragment {
 
         View root = local_inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
 
+        /* Refresh button */
+        button_refresh = root.findViewById(R.id.button_refresh);
+        button_refresh.setOnClickListener(onClickHandler_refresh);
+
         dashboard_title              = root.findViewById(R.id.dashboard_title);
         dashboard_last_update        = root.findViewById(R.id.dashboard_last_update_value);
         dashboard_temp_in_value      = root.findViewById(R.id.dashboard_temp_in_value_current);
@@ -83,7 +92,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        http_client.getStationsData(getString(R.string.device_id), dashboard_station_response);
+        http_client.getStationsData(getString(R.string.device_id), dashboard_station_response, false);
     }
 
     public void updateView(String last_update,
@@ -139,6 +148,19 @@ public class DashboardFragment extends Fragment {
             }
         }
     }
+
+    /**
+     * Refresh button handler.
+     * Send a getStationsData request, bypassing the timing check.
+     */
+    private Button.OnClickListener onClickHandler_refresh = new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String msg = getString(R.string.button_refresh_text) + " " + getString(R.string.unicode_ellipsis);
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            http_client.getStationsData(getString(R.string.device_id), dashboard_station_response, true);
+        }
+    };
 
     public void initDashboardListeners() {
         /* Station data listener */
