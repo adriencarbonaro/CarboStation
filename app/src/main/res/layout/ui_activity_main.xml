@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_ConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/color_background">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_BottomNavigationView"

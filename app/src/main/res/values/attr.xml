@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="color_logo_text" format="reference"/>
+    <attr name="color_logo_orange" format="reference"/>
+    <attr name="color_logo_pink" format="reference"/>
+
+    <attr name="color_red" format="reference"/>
+    <attr name="color_green" format="reference"/>
+    <attr name="color_blue" format="reference"/>
+
+    <attr name="color_background" format="reference"/>
+    <attr name="color_background_alt" format="reference"/>
+
+    <attr name="color_surface" format="reference"/>
+    <attr name="color_surface_alt" format="reference"/>
+
+    <attr name="color_rounded_rectangle" format="reference"/>
+
+    <attr name="color_temp_in" format="reference"/>
+    <attr name="color_temp_out" format="reference"/>
+    <attr name="color_text" format="reference"/>
+    <attr name="color_text_alt" format="reference"/>
+</resources>

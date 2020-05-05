@@ -2,11 +2,29 @@
 
     <!-- Base application theme. -->
     <style name="homeLabTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Logo colors -->
+        <item name="color_logo_text">@color/color_logo_text_light</item>
+        <item name="color_logo_pink">@color/color_logo_pink</item>
+        <item name="color_logo_orange">@color/color_logo_orange</item>
+        <!-- Background colors -->
+        <item name="color_background">@color/color_background_light</item>
+        <item name="color_background_alt">@color/color_background_alt_light</item>
+        <item name="color_surface">@color/color_surface_light</item>
+        <item name="color_surface_alt">@color/color_surface_alt_light</item>
+        <item name="color_rounded_rectangle">@color/color_rounded_rectangle_light</item>
+        <!-- Standard colors -->
+        <item name="color_red">@color/color_red_light</item>
+        <item name="color_green">@color/color_green_light</item>
+        <item name="color_blue">@color/color_blue_light</item>
+        <!-- Other colors -->
         <item name="colorPrimary">@color/color_logo_orange</item>
         <item name="colorPrimaryDark">@color/color_logo_orange</item>
-        <item name="colorAccent">@color/color_red</item>
+        <item name="colorAccent">@color/color_red_light</item>
+        <item name="color_text">@color/color_dark_grey</item>
+        <item name="color_text_alt">@color/color_grey</item>
+        <!-- Status bar colors -->
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/color_logo_orange_dark</item>
+        <item name="android:statusBarColor">@color/color_status_bar_light</item>
     </style>
 
     <!-- No action bar -->
@@ -21,36 +39,37 @@
 
     <!-- Dashboard Fragment -->
     <style name="homeLabTheme.DashboardFragment">
-        <item name="color_temp_in">@color/color_surface_light</item>
-        <item name="color_temp_out">@color/color_surface_alt_light</item>
+        <item name="color_temp_in">?attr/color_surface</item>
+        <item name="color_temp_out">?attr/color_surface_alt</item>
     </style>
 
     <!-- Status Fragment -->
     <style name="homeLabTheme.StatusFragment">
-        <item name="color_background_alt">@color/color_background_alt_light</item>
     </style>
 
     <!-- Splash screen -->
     <style name="homeLabTheme.SplashScreen">
-        <item name="android:statusBarColor">@color/color_logo_orange</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">?attr/color_logo_orange</item>
     </style>
 
     <!-- Buttons -->
     <style name="homeLabTheme.ButtonOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textColor">@color/color_green</item>
+        <item name="android:textColor">?attr/color_green</item>
+        <item name="android:iconTint">?attr/color_green</item>
     </style>
 
     <style name="homeLabTheme.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:backgroundTint">@color/color_green</item>
+        <item name="android:backgroundTint">?attr/color_green</item>
     </style>
 
     <style name="homeLabTheme.SwitchButton">
-        <item name="colorAccent">@color/color_green</item>
+        <item name="colorAccent">?attr/color_green</item>
     </style>
 
     <!-- BottomNavigationView -->
     <style name="homeLabTheme.BottomNavigationView">
-        <item name="colorPrimary">@color/color_green</item>
+        <item name="colorPrimary">?attr/color_green</item>
     </style>
 
     <style name="homeLabTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
