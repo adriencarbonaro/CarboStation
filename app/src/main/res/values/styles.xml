@@ -36,7 +36,6 @@
     <!-- BottomNavigationView -->
     <style name="homeLabTheme.BottomNavigationView">
         <item name="colorPrimary">@color/color_green</item>
-        <item name="colorOnPrimary">@color/color_green</item>
     </style>
 
     <style name="homeLabTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
