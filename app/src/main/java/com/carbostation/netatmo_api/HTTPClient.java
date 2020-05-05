@@ -32,9 +32,17 @@ abstract public class HTTPClient {
     //volley library part
     private RequestQueue request_queue;
 
+    private Response.Listener<String> _listener;
+
 
     public HTTPClient(Context context){
         request_queue = Volley.newRequestQueue(context);
+        _listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("HTTP", "<-- [RES]    " + response);
+            }
+        };
     }
 
 
@@ -45,9 +53,20 @@ abstract public class HTTPClient {
      * @param successListener
      * @param errorListener
      */
-    protected void POST(String url, final HashMap<String,String> params, Response.Listener<String> successListener, Response.ErrorListener errorListener){
+    protected void POST(String url, final HashMap<String,String> params, final Response.Listener<String> successListener, final Response.ErrorListener errorListener){
 
-        StringRequest request = new StringRequest(Request.Method.POST, url,successListener,errorListener) {
+        StringRequest request = new StringRequest(
+            Request.Method.POST,
+            url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    _listener.onResponse(response);
+                    successListener.onResponse(response);
+                }
+            },
+            errorListener
+        ) {
             @Override
             protected Map<String,String> getParams(){
                 return params;
@@ -66,9 +85,20 @@ abstract public class HTTPClient {
      * @param successListener
      * @param errorListener
      */
-    protected void GET(String url, final HashMap<String,String> params, Response.Listener<String> successListener, Response.ErrorListener errorListener){
+    protected void GET(String url, final HashMap<String,String> params, final Response.Listener<String> successListener, Response.ErrorListener errorListener){
 
-        StringRequest request = new StringRequest(Request.Method.POST, url,successListener,errorListener) {
+        StringRequest request = new StringRequest(
+            Request.Method.POST,
+            url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    _listener.onResponse(response);
+                    successListener.onResponse(response);
+                }
+            },
+            errorListener
+        ) {
             @Override
             protected Map<String,String> getParams(){
                 return params;

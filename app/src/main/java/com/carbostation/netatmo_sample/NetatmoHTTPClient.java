@@ -123,13 +123,13 @@ public class NetatmoHTTPClient extends HTTPClient {
             params.put(NetatmoUtils.KEY_ACCESS_TOKEN, _shared_preferences.getString(NetatmoUtils.KEY_ACCESS_TOKEN, null));
             params.put(NetatmoUtils.KEY_DEVICE_ID, device_id);
 
+            Log.i(REQ_TAG, REQ_STATION_DATA);
             GET(
                 NetatmoUtils.URL_API_GET_STATIONS_DATA,
                 params,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("HTTP", "<--          " + response);
                         _get_stations_last_response = response;
                         listener.onResponse(response);
                     }

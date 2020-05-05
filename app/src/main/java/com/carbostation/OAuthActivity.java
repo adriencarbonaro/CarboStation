@@ -131,7 +131,6 @@ public class OAuthActivity extends Activity {
 
     private void OAuthResponseHandler(String response) {
         try {
-            Log.i("HTTP", "<--          " + response);
             HashMap<String, String> parsedResponse = NetatmoUtils.parseOAuthResponse(
                     new JSONObject(response)
             );
