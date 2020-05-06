@@ -21,6 +21,12 @@
 
     <!-- Status view constants -->
     <string name="app_version_key">App version</string>
+    <string name="status_settings">Settings</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_refresh">Refresh frequency</string>
+    <string name="settings_refresh_value">%1d min</string>
+    <string name="settings_battery">Ext. module battery</string>
+    <string name="settings_battery_status">Status</string>
     <string name="battery_status">%1d %%</string>
 
     <!-- -->
