@@ -1,15 +1,17 @@
 package com.carbostation.ui.status;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -25,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
@@ -33,16 +36,25 @@ public class StatusFragment extends Fragment {
 
     public static final String TAG = "StatusFragment";
 
-    private TextView status_version          = null;
-    private Switch switch_test               = null;
+    /* UI elements */
+    private TextView  status_version         = null;
+    private TextView  refresh_freq_value     = null;
     private ImageView battery_status_icon    = null;
     private TextView  battery_status         = null;
+
+    /* HTTP */
     private NetatmoHTTPClient http_client    = null;
     private Response.Listener<String> status_station_response;
+
+    /* Preferences */
+    private SharedPreferences _shared_preferences;
+    public static final String KEY_REFRESH_FREQ    = "refresh_freq";
+    public static final String KEY_DARK_MODE       = "dark_mode";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _shared_preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         this.initListener();
         http_client = NetatmoHTTPClient.getInstance(getContext());
     }
@@ -55,9 +67,25 @@ public class StatusFragment extends Fragment {
 
         View root = local_inflater.inflate(R.layout.ui_fragment_status, container, false);
 
+        /* Version */
         status_version = root.findViewById(R.id.status_version);
-        switch_test = root.findViewById(R.id.switch_test_value);
-        switch_test.setOnCheckedChangeListener(onSwitchClickHandler);
+
+        /* Dark mode */
+        Switch switch_dark_mode = root.findViewById(R.id.switch_dark_mode_value);
+        switch_dark_mode.setOnCheckedChangeListener(onSwitchDarkModeClickHandler);
+        switch_dark_mode.setChecked(getDarkMode() == MODE_NIGHT_YES);
+
+        /* Request refresh frequency */
+        int freq_value_idx = getRefreshFreq();
+        refresh_freq_value = root.findViewById(R.id.settings_timing_value);
+        refresh_freq_value.setText(
+            getString(R.string.settings_refresh_value, NetatmoUtils.req_freq_table[freq_value_idx])
+        );
+        SeekBar refresh_freq_bar = root.findViewById(R.id.settings_timing_bar);
+        refresh_freq_bar.setOnSeekBarChangeListener(onSeekBarChangedHandler);
+        refresh_freq_bar.setProgress(freq_value_idx);
+
+        /* Module battery status */
         battery_status_icon = root.findViewById(R.id.status_battery_value_icon);
         battery_status      = root.findViewById(R.id.status_battery_value);
         return root;
@@ -74,14 +102,43 @@ public class StatusFragment extends Fragment {
         status_version.setText(version);
     }
 
-    private CompoundButton.OnCheckedChangeListener onSwitchClickHandler =
+    /* -- Button handlers ----------------------------------------------------------------------- */
+
+    /**
+     * Handle the dark mode switch button.
+     */
+    private CompoundButton.OnCheckedChangeListener onSwitchDarkModeClickHandler =
             new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (b) { setDefaultNightMode(MODE_NIGHT_YES); }
-            else { setDefaultNightMode(MODE_NIGHT_NO); }
+            int dark_mode;
+            if (b) { dark_mode = MODE_NIGHT_YES; }
+            else { dark_mode = MODE_NIGHT_NO; }
+            storeDarkMode(dark_mode);
+            setDefaultNightMode(dark_mode);
         }
     };
+
+    /**
+     * Handle the request refresh frequency seek bar.
+     */
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangedHandler =
+            new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            refresh_freq_value.setText(getString(R.string.settings_refresh_value, NetatmoUtils.req_freq_table[i]));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) { }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            storeRefreshFreq(seekBar.getProgress());
+        }
+    };
+
+    /* -- HTTP Response listener ---------------------------------------------------------------- */
 
     private void initListener() {
         status_station_response = new Response.Listener<String>() {
@@ -115,5 +172,43 @@ public class StatusFragment extends Fragment {
                 }
             }
         };
+    }
+
+    /* -- Preference management ----------------------------------------------------------------- */
+
+    /**
+     * Function to retrieve dark mode value from preferences.
+     *
+     * @return Dark mode status.
+     */
+    private int getDarkMode() { return _shared_preferences.getInt(KEY_DARK_MODE, MODE_NIGHT_AUTO_BATTERY); }
+
+    /**
+     * Function to retrieve request refresh frequency index value from preferences.
+     *
+     * @return Request refresh frequency (seek bar index).
+     */
+    private int getRefreshFreq() { return _shared_preferences.getInt(KEY_REFRESH_FREQ, 0); }
+
+    /**
+     * Function to save dark mode status.
+     *
+     * @param status dark mode status (true or false).
+     */
+    private void storeDarkMode(int status) {
+        SharedPreferences.Editor editor = _shared_preferences.edit();
+        editor.putInt(KEY_DARK_MODE, status);
+        editor.apply();
+    }
+
+    /**
+     * Function to save seek bar index, indicating request refresh frequency.
+     *
+     * @param value The seek bar index.
+     */
+    private void storeRefreshFreq(int value) {
+        SharedPreferences.Editor editor = _shared_preferences.edit();
+        editor.putInt(KEY_REFRESH_FREQ, value);
+        editor.apply();
     }
 }

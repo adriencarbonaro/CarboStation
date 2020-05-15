@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static com.carbostation.ui.status.StatusFragment.KEY_REFRESH_FREQ;
+
 /**
  * This is just an example of how you can extend HTTPClient.
  * Tokens are stored in the shared preferences of the app, but you can store them as you wish
@@ -33,14 +35,11 @@ public class NetatmoHTTPClient extends HTTPClient {
     private static final String REQ_PUBLIC_DATA     = "[GET_PUBLIC_DATA]";
     private static final String REQ_STATION_DATA    = "[GET_STATION_DATA]";
 
-    private static final int REFRESH_RATE_MIN    = 2;
-    private static final int MIN_IN_SEC          = 60;
-    private static final int REFRESH_RATE_SEC    = REFRESH_RATE_MIN * MIN_IN_SEC;
+    private static final int MIN_TO_SEC             = 60;
 
-    Context context;
+    private Context context;
 
     private SharedPreferences _shared_preferences;
-    private JSONObject obj;
 
     private String _get_stations_last_response = null;
     private String _tokens_last_response       = null;
@@ -80,13 +79,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         POST(
             NetatmoUtils.URL_OAUTH_REQUEST_TOKEN,
             params,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    _tokens_last_response = response;
-                    listener.onResponse(response);
-                }
-            },
+            listener,
             null);
     }
 
@@ -164,6 +157,7 @@ public class NetatmoHTTPClient extends HTTPClient {
      *         false  otherwise.
      */
     private boolean checkLastGetStationsReponse() {
+        int refresh_freq = _shared_preferences.getInt(KEY_REFRESH_FREQ, 0);
         if (_get_stations_last_response == null) {
             return false;
         } else {
@@ -173,7 +167,11 @@ public class NetatmoHTTPClient extends HTTPClient {
                         new JSONObject(_get_stations_last_response), NetatmoUtils.KEY_TIME_SERVER
                     )
                 );
-                return (System.currentTimeMillis() < ((timestamp + REFRESH_RATE_SEC) * 1000));
+                return (
+                    System.currentTimeMillis() < ((timestamp +
+                        (NetatmoUtils.req_freq_table[refresh_freq] * MIN_TO_SEC)) * 1000
+                    )
+                );
             } catch (JSONException e) {
                 e.printStackTrace();
                 return false;

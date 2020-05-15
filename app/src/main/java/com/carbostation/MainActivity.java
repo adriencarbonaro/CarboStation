@@ -1,6 +1,8 @@
 package com.carbostation;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.carbostation.netatmo_sample.NetatmoHTTPClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,21 +13,25 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED;
+
+import static com.carbostation.ui.status.StatusFragment.KEY_DARK_MODE;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-
-    // Bottom navigation item
-    private BottomNavigationView bottom_nav_view;
-    private NetatmoHTTPClient    http_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_activity_main);
 
+        /* Set dark mode according to preferences */
+        SharedPreferences shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int dark_mode = shared_preferences.getInt(KEY_DARK_MODE, MODE_NIGHT_AUTO_BATTERY);
+        setDefaultNightMode(dark_mode);
         initBottomNavBar();
     }
 
@@ -33,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
      * @brief Initialize bottom navigation bar.
      */
     protected void initBottomNavBar() {
-        bottom_nav_view = findViewById(R.id.main_BottomNavigationView);
+        BottomNavigationView bottom_nav_view = findViewById(R.id.main_BottomNavigationView);
 
         /* Bottom nav bar labels are visible only on selected item */
         bottom_nav_view.setLabelVisibilityMode(LABEL_VISIBILITY_SELECTED);

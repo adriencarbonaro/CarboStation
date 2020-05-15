@@ -37,6 +37,12 @@ public class NetatmoUtils {
 
     public static final String TAG = "NetatmoUtils";
 
+    /* Request frequency timing */
+    public static final int REQ_FREQ_MIN       = 2;
+    public static final int REQ_FREQ_MOY       = 5;
+    public static final int REQ_FREQ_MAX       = 15;
+    public static final int[] req_freq_table   = {REQ_FREQ_MIN, REQ_FREQ_MOY, REQ_FREQ_MAX};
+
     /* API URLs */
     public static final String URL_BASE                    = "https://api.netatmo.net";
     public static final String URL_OAUTH_REQUEST_TOKEN     = URL_BASE + "/oauth2/token";
