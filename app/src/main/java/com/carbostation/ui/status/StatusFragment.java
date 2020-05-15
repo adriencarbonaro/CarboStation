@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
@@ -74,7 +75,7 @@ public class StatusFragment extends Fragment {
         /* Dark mode */
         switch_dark_mode = root.findViewById(R.id.switch_dark_mode_value);
         switch_dark_mode.setOnCheckedChangeListener(onSwitchDarkModeClickHandler);
-        switch_dark_mode.setChecked(getDarkMode());
+        switch_dark_mode.setChecked(getDarkMode() == MODE_NIGHT_YES);
 
         /* Request refresh frequency */
         refresh_freq_value = root.findViewById(R.id.settings_timing_value);
@@ -108,9 +109,11 @@ public class StatusFragment extends Fragment {
             new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (b) { setDefaultNightMode(MODE_NIGHT_YES); }
-            else { setDefaultNightMode(MODE_NIGHT_NO); }
-            storeDarkMode(b);
+            int dark_mode;
+            if (b) { dark_mode = MODE_NIGHT_YES; }
+            else { dark_mode = MODE_NIGHT_NO; }
+            storeDarkMode(dark_mode);
+            setDefaultNightMode(dark_mode);
         }
     };
 
@@ -176,7 +179,7 @@ public class StatusFragment extends Fragment {
      *
      * @return Dark mode status.
      */
-    private boolean getDarkMode() { return _shared_preferences.getBoolean(KEY_DARK_MODE, false); }
+    private int getDarkMode() { return _shared_preferences.getInt(KEY_DARK_MODE, MODE_NIGHT_AUTO_BATTERY); }
 
     /**
      * Function to retrieve request refresh frequency index value from preferences.
@@ -190,9 +193,9 @@ public class StatusFragment extends Fragment {
      *
      * @param status dark mode status (true or false).
      */
-    private void storeDarkMode(boolean status) {
+    private void storeDarkMode(int status) {
         SharedPreferences.Editor editor = _shared_preferences.edit();
-        editor.putBoolean(KEY_DARK_MODE, status);
+        editor.putInt(KEY_DARK_MODE, status);
         editor.apply();
     }
 
