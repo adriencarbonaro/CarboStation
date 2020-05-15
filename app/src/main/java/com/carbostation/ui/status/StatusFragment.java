@@ -50,8 +50,8 @@ public class StatusFragment extends Fragment {
 
     /* Preferences */
     private SharedPreferences _shared_preferences;
-    private static final String KEY_REFRESH_FREQ    = "refresh_freq";
-    private static final String KEY_DARK_MODE       = "dark_mode";
+    public static final String KEY_REFRESH_FREQ    = "refresh_freq";
+    public static final String KEY_DARK_MODE       = "dark_mode";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,10 +78,14 @@ public class StatusFragment extends Fragment {
         switch_dark_mode.setChecked(getDarkMode() == MODE_NIGHT_YES);
 
         /* Request refresh frequency */
+        int freq_value_idx = getRefreshFreq();
         refresh_freq_value = root.findViewById(R.id.settings_timing_value);
+        refresh_freq_value.setText(
+            getString(R.string.settings_refresh_value, NetatmoUtils.req_freq_table[freq_value_idx])
+        );
         refresh_freq_bar = root.findViewById(R.id.settings_timing_bar);
         refresh_freq_bar.setOnSeekBarChangeListener(onSeekBarChangedHandler);
-        refresh_freq_bar.setProgress(getRefreshFreq());
+        refresh_freq_bar.setProgress(freq_value_idx);
 
         /* Module battery status */
         battery_status_icon = root.findViewById(R.id.status_battery_value_icon);

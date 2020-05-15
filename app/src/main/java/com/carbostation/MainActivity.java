@@ -14,9 +14,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
-import static androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED;
+
+import static com.carbostation.ui.status.StatusFragment.KEY_DARK_MODE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private NetatmoHTTPClient    http_client;
 
     private SharedPreferences _shared_preferences;
-    private static final String KEY_DARK_MODE       = "dark_mode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
