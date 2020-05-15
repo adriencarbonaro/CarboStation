@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="color_logo_text" format="reference"/>
-    <attr name="color_logo_orange" format="reference"/>
-    <attr name="color_logo_pink" format="reference"/>
+    <attr name="color_logo_start" format="reference"/>
+    <attr name="color_logo_end" format="reference"/>
 
     <attr name="color_red" format="reference"/>
     <attr name="color_green" format="reference"/>

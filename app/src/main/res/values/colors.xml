@@ -5,8 +5,8 @@
     <color name="color_primary_dark">#282C34</color>
 
     <!-- App logo -->
-    <color name="color_logo_pink">#F5ADBC</color>
-    <color name="color_logo_orange">#FAC2A1</color>
+    <color name="color_logo_start">#ff7e5f</color>
+    <color name="color_logo_end">#feb47b</color>
     <color name="color_logo_text_light">#666766</color>
     <color name="color_logo_text_dark">#EFEFEF</color>
 

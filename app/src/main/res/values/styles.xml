@@ -4,8 +4,8 @@
     <style name="homeLabTheme" parent="Theme.MaterialComponents.Light">
         <!-- Logo colors -->
         <item name="color_logo_text">@color/color_logo_text_light</item>
-        <item name="color_logo_pink">@color/color_logo_pink</item>
-        <item name="color_logo_orange">@color/color_logo_orange</item>
+        <item name="color_logo_start">@color/color_logo_start</item>
+        <item name="color_logo_end">@color/color_logo_end</item>
         <!-- Background colors -->
         <item name="color_background">@color/color_background_light</item>
         <item name="color_background_alt">@color/color_background_alt_light</item>
@@ -17,8 +17,8 @@
         <item name="color_green">@color/color_green_light</item>
         <item name="color_blue">@color/color_blue_light</item>
         <!-- Other colors -->
-        <item name="colorPrimary">@color/color_logo_orange</item>
-        <item name="colorPrimaryDark">@color/color_logo_orange</item>
+        <item name="colorPrimary">@color/color_logo_start</item>
+        <item name="colorPrimaryDark">@color/color_logo_start</item>
         <item name="colorAccent">@color/color_red_light</item>
         <item name="color_text">@color/color_dark_grey</item>
         <item name="color_text_alt">@color/color_grey</item>
@@ -50,7 +50,7 @@
     <!-- Splash screen -->
     <style name="homeLabTheme.SplashScreen">
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">?attr/color_logo_orange</item>
+        <item name="android:statusBarColor">?attr/color_logo_end</item>
     </style>
 
     <!-- Buttons -->
