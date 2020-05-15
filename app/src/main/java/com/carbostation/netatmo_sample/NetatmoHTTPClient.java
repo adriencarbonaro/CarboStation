@@ -37,10 +37,9 @@ public class NetatmoHTTPClient extends HTTPClient {
 
     private static final int MIN_TO_SEC             = 60;
 
-    Context context;
+    private Context context;
 
     private SharedPreferences _shared_preferences;
-    private JSONObject obj;
 
     private String _get_stations_last_response = null;
     private String _tokens_last_response       = null;
@@ -80,13 +79,7 @@ public class NetatmoHTTPClient extends HTTPClient {
         POST(
             NetatmoUtils.URL_OAUTH_REQUEST_TOKEN,
             params,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    _tokens_last_response = response;
-                    listener.onResponse(response);
-                }
-            },
+            listener,
             null);
     }
 

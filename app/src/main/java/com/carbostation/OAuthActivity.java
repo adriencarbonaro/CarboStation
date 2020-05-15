@@ -34,7 +34,6 @@ public class OAuthActivity extends Activity {
     SharedPreferences _shared_preferences;
     private NetatmoHTTPClient http_client;
     private String _state       = null;
-    private String _uri         = null;
 
     /* Listeners */
     Response.Listener<String> OAuthResponseListener = new Response.Listener<String>() {
@@ -132,13 +131,13 @@ public class OAuthActivity extends Activity {
     private void OAuthResponseHandler(String response) {
         try {
             HashMap<String, String> parsedResponse = NetatmoUtils.parseOAuthResponse(
-                    new JSONObject(response)
+                new JSONObject(response)
             );
 
             storeTokens(
-                    parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
-                    parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
-                    Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT))
+                parsedResponse.get(NetatmoUtils.KEY_ACCESS_TOKEN),
+                parsedResponse.get(NetatmoUtils.KEY_REFRESH_TOKEN),
+                Long.valueOf(parsedResponse.get(NetatmoUtils.KEY_EXPIRES_AT))
             );
 
             /* Tokens are stored -> Go to main activity */

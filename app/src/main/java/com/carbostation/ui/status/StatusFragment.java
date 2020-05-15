@@ -38,9 +38,7 @@ public class StatusFragment extends Fragment {
 
     /* UI elements */
     private TextView  status_version         = null;
-    private Switch    switch_dark_mode       = null;
     private TextView  refresh_freq_value     = null;
-    private SeekBar   refresh_freq_bar       = null;
     private ImageView battery_status_icon    = null;
     private TextView  battery_status         = null;
 
@@ -73,7 +71,7 @@ public class StatusFragment extends Fragment {
         status_version = root.findViewById(R.id.status_version);
 
         /* Dark mode */
-        switch_dark_mode = root.findViewById(R.id.switch_dark_mode_value);
+        Switch switch_dark_mode = root.findViewById(R.id.switch_dark_mode_value);
         switch_dark_mode.setOnCheckedChangeListener(onSwitchDarkModeClickHandler);
         switch_dark_mode.setChecked(getDarkMode() == MODE_NIGHT_YES);
 
@@ -83,7 +81,7 @@ public class StatusFragment extends Fragment {
         refresh_freq_value.setText(
             getString(R.string.settings_refresh_value, NetatmoUtils.req_freq_table[freq_value_idx])
         );
-        refresh_freq_bar = root.findViewById(R.id.settings_timing_bar);
+        SeekBar refresh_freq_bar = root.findViewById(R.id.settings_timing_bar);
         refresh_freq_bar.setOnSeekBarChangeListener(onSeekBarChangedHandler);
         refresh_freq_bar.setProgress(freq_value_idx);
 

@@ -2,7 +2,6 @@ package com.carbostation.ui.dashboard;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
@@ -38,10 +36,7 @@ public class DashboardFragment extends Fragment {
 
     private String TAG="DashboardFragment";
 
-    private Button button_refresh    = null;
-
     private NetatmoHTTPClient http_client;
-    private Response.Listener<String> dashboard_public_response;
     private Response.Listener<String> dashboard_station_response;
 
     private TextView dashboard_title;
@@ -72,7 +67,7 @@ public class DashboardFragment extends Fragment {
         View root = local_inflater.inflate(R.layout.ui_fragment_dashoard, container, false);
 
         /* Refresh button */
-        button_refresh = root.findViewById(R.id.button_refresh);
+        Button button_refresh = root.findViewById(R.id.button_refresh);
         button_refresh.setOnClickListener(onClickHandler_refresh);
 
         dashboard_title              = root.findViewById(R.id.dashboard_title);
@@ -95,7 +90,7 @@ public class DashboardFragment extends Fragment {
         http_client.getStationsData(getString(R.string.device_id), dashboard_station_response, false);
     }
 
-    public void updateView(String last_update,
+    private void updateView(String last_update,
             String title, String temp_in, String temp_in_min, String temp_in_max, String temp_in_trend,
             String temp_out, String temp_out_min, String temp_out_max, String temp_out_trend) {
         /* Title */
@@ -162,7 +157,7 @@ public class DashboardFragment extends Fragment {
         }
     };
 
-    public void initDashboardListeners() {
+    private void initDashboardListeners() {
         /* Station data listener */
         dashboard_station_response = new Response.Listener<String>() {
             @Override
@@ -219,14 +214,6 @@ public class DashboardFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        };
-
-        /* Public data listener */
-        dashboard_public_response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "91 : response " + response);
             }
         };
     }

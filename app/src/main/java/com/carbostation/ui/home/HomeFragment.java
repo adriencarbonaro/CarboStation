@@ -17,10 +17,6 @@ import com.carbostation.R;
 
 public class HomeFragment extends Fragment {
 
-    private ImageView home_logo     = null;
-    private Button button_cancel    = null;
-    private Button button_ok        = null;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         /* Apply theme from styles.xml to fragments is done here rather than in Manifest */
@@ -28,9 +24,9 @@ public class HomeFragment extends Fragment {
         LayoutInflater local_inflater = inflater.cloneInContext(contextThemeWrapper);
 
         View root = local_inflater.inflate(R.layout.ui_fragment_home, container, false);
-        home_logo = root.findViewById(R.id.home_logo);
-        button_cancel = root.findViewById(R.id.b1);
-        button_ok = root.findViewById(R.id.b2);
+        ImageView home_logo = root.findViewById(R.id.home_logo);
+        Button button_cancel = root.findViewById(R.id.b1);
+        Button button_ok = root.findViewById(R.id.b2);
         button_cancel.setOnClickListener(onClickHandler_cancer);
         button_ok.setOnClickListener(onClickHandler_ok);
         return root;
